@@ -1,4 +1,15 @@
 files that are being used right now, don't try editing the others idiot.
 style2
 test.html
-renderer.HTML
+renderer.js
+clockManager.mjs
+timeManager.mjs
+
+
+
+
+todo;
+    set 'mode' button to toggle between a light/dark mode
+    setup backend to interact with the python scripts
+      (or find a new way to handle the interactions)
+      

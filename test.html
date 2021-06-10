@@ -8,7 +8,9 @@
     <title>fuk</title>
     <link rel = "shortcut icon" type = "image/gif" href = "res/ico.gif"/>
     <link rel = "stylesheet" href = "style2.css"/>
-    <script src="js/renderer.js"></script>
+    <script src="js/renderer.js" type='module'></script>
+    <script src="js/modules/timeManager.mjs" type='module'></script>
+    <script src="js/modules/clockManager.mjs" type='module'></script>
   </head>
   <body>
     <header id="titlebar">
@@ -55,8 +57,9 @@
           <!--put the stuff like password box here, as well as time -->
       </div>
       <div id="globalFunc">
-        <label id='lbl_pwd'>Password</label>
-        <textarea id="g_tbox" maxlength="20"></textarea>
+        <label class = "g_lbl" id='lbl_pwd'>Password</label>
+        <textarea id="g_tbox" maxlength="20" name="txt_password"></textarea>
+        <label class="g_lbl" id="clock">test</label>
       </div>
   </body>
 </html>

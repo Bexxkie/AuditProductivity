@@ -166,11 +166,15 @@ body{
 }
 
 .btn:hover{
-  width: 70px !important;
+  width: 65px !important;
   background-color: var(--col-dark-b) !important;
   color:var(--col-dark-f) !important;
 }
+.btn:active{
+  width: 70px !important;
+  background-color: var(--col-blurple-d) !important;
 
+}
 #sec2{
   display: flex;
   width: 100%;
@@ -229,7 +233,14 @@ body{
   display:block;
   vertical-align: middle;
   width: 100%;
-  line-height: 20px;
+  user-select: none;
+  padding-left: 12px;
+}
+.g_lbl{
+  vertical-align: top;
+}
+#lbl_pwd{
+  padding-right: 8px;
 }
 #g_tbox{
   text-align: left;
@@ -242,4 +253,9 @@ body{
   background-color: var(--col-dark-a);
   outline: 1px solid var(--col-dark-b);
   overflow:auto;
+  -webkit-text-security:disc;
+}
+#clock{
+  float:right;
+  padding-right: 12px;
 }

@@ -1,3 +1,5 @@
+import * as timeMan from './modules/timeManager.mjs';
+import * as clockMan from './modules/clockManager.mjs';
 var nodeConsole = require('console');
 var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
 const remote = require('electron').remote;
@@ -6,6 +8,7 @@ document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
         checkState();
         handleWindowControls();
+        clockMan.showTime();
     }
 };
 var btnOpn = ['70px','white'];
@@ -18,6 +21,8 @@ window.onbeforeunload=(event)=>{
   win.removeAllListeners();
 }
 
+//ensures ui is rendered right,
+// -buttons locked when they should be and stuff
 function checkState(){
     if(document.getElementById("auditFunctions").style.display != 'none'){
       updateElement("btn_aud",btnOpn,c3);
@@ -35,13 +40,15 @@ function checkState(){
       updateElement("btn_gen",btnCls,c1);
     }
 }
+//
+//used for updating button styles, for switches and stuff.
 function updateElement(str,val,col){
   document.getElementById(str).style.width = val[0];
   document.getElementById(str).style.color = val[1];
   document.getElementById(str).style.background = col
 }
-
-
+//
+// add listeners to buttonpress events
 function handleWindowControls(){
   //Window buttons
   document.getElementById('btn_min').addEventListener("click", event => {
@@ -65,10 +72,6 @@ function handleWindowControls(){
   document.getElementById('log_toggle').addEventListener("click", event => {
     toggleElement('log_toggle',false);
   });
-}
-
-function toggleButton(){
-
 }
 
 //general functions -autolog
@@ -95,18 +98,20 @@ function toggleElement(str,b=true){
   myConsole.log(val+str);
   checkState();
   }
-
+/*
+//returns current time, used in historypane h:m:ss
 function getTime(){
   var today = new Date();
   var h = today.getHours();
   var m = today.getMinutes();
   var s = today.getSeconds();
   var t = h+":"+m+":"+s;
-  return(t+"]");
-}
-
+  return(t);
+}*/
+//
+// writes to historypane, autoscrolls to newest line
 function updateHistory(str){
   var pan = document.getElementById('history_box');
-  pan.textContent+=(getTime()+" "+str+"\n[");
+  pan.textContent+=(timeMan.getTime()+"] "+str+"\n[");
   pan.scrollTop = pan.scrollHeight;
   }
