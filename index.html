@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>fuk</title>
+    <link rel = "shortcut icon" type = "image/gif" href = "res/ico.gif"/>
+    <link rel = "stylesheet" href = "styles.css"/>
+
+  </head>
+  <body>
+    <header id="titlebar">
+      <div id="drag_region" >
+        <img class="icon" id = "t_ico" draggable="false"/>
+        <div class="icon" id = "w_title"><span>test</span></div>
+
+        <div id = "wctrl" draggable="false">
+          <div class="ictrl" id = "t_cls" onclick="exit()" draggable="false"></div>
+          <div class="ictrl" id = "t_min" draggable="false"></div>
+      </div>
+      </div>
+    </header>
+
+      <div id="window_contain">
+        <div id="menu_anchor">
+          <button class="btn" id="btn1" onclick="onClick()">
+            <label class="lbl">test</label>
+          </button>
+          <button class="btn" id="btn2"onclick="onClick()">
+            <label class="lbl">test2</label>
+          </button>
+          <button class="btn" id="btn3"onclick="exit()">
+            <label class="lbl">exit</label>
+          </button>
+        </div>
+    </div>
+  </body>
+</script>
+</html>

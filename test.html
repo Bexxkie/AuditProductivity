@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>fuk</title>
+    <link rel = "shortcut icon" type = "image/gif" href = "res/ico.gif"/>
+    <link rel = "stylesheet" href = "style2.css"/>
+    <script src="js/renderer.js"></script>
+  </head>
+  <body>
+    <header id="titlebar">
+      <div id="drag_region">
+        <div id= info>
+          <img id="icon">
+            <div id="name">kill me</div>
+          </div>
+        <div id="controls">
+          <div class="button" id="btn_cls">x
+          </div>
+          <div class="button" id="btn_min">-
+          </div>
+        </div>
+      </div>
+    </header>
+    <div id="main">
+      <div id="btn_group">
+      <div class="btn" id="btn_hst">History</div>
+      <div class="btn" id="btn_gen">General</div>
+      <div class="btn" id="btn_aud">Audit</div>
+      </div>
+      <div id="historyPane">
+        <div class="s_header"id="historyHead">History</div>
+        <textarea id="history_box" disabled=true>[</textarea>
+      </div>
+    </div>
+    <!--Secondary controls here-->
+      <div id ="sec2">
+        <div class="c_group" id="generalFunctions">
+          <div class="s_header"id="generalHead">General</div>
+          <div class="b_group"id="gf_group">
+            <div class="genButton" id="log_toggle">Autolog</div>
+            <div class="genButton" id="mod_toggle">mode</div>
+            </div>
+          </div>
+          <div class="c_group" id="auditFunctions">
+            <div class="s_header"id="auditHead">Audit</div>
+            <div class="b_group"id="au_group">
+              <div class="audButton" id="departures">Departures</div>
+              <div class="audButton" id="folios">Folios</div>
+              </div>
+          </div>
+          <!--put the stuff like password box here, as well as time -->
+      </div>
+      <div id="globalFunc">
+        <label id='lbl_pwd'>Password</label>
+        <textarea id="g_tbox" maxlength="20"></textarea>
+      </div>
+  </body>
+</html>

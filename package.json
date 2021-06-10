@@ -1,0 +1,14 @@
+{
+  "name": "electron_ae",
+  "version": "1.0.0",
+  "description": "audit express UI overhaul",
+  "main": "main.js",
+  "author": "BrianKG",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^13.0.1"
+  },
+  "scripts":{
+    "start": "electron ."
+  }
+}

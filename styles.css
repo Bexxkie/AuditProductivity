@@ -1,0 +1,159 @@
+:root {
+  /*So i guess i can use root to hold vars*/
+  --color-bray: rgb(50,60,75);
+  --color-bray-t: rgba(70,80,95,0.5);
+
+
+  --border-def: 2px solid black;
+
+  --img-nek: url("res/back.jpg");
+  --img-bun: url("res/ico.gif");
+
+  --btn-wid: 20px;
+  --btn-hit: 40px;
+}
+#titlebar
+{
+  height: 32px;
+  width: calc(100% - 2px);
+  background: var(--color-bray-t);
+  display: block;
+  position: fixed;
+  left:0px;
+  top: 0px;
+  padding:4px;
+}
+#titlebar #drag_region
+{
+  width: 100%;
+  height: 100%;
+  -webkit-app-region: drag;
+  display: grid;
+  grid-template-columns: auto 138px;
+}
+#w_title
+{
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  margin-left: 45px;
+  overflow: hidden;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 12px;
+  color:white;
+}
+#w_title span
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+.icon
+{
+  height: 36px;
+  top: 0px;
+  position:absolute;
+  padding: 0px;
+  justify-content: center;
+  align-items: center;
+}
+#wctrl
+{
+  width: 64px;
+  height: 100%;
+  top:0px;
+  position: absolute;
+  right: 0px;
+  display:grid;
+  grid-template-columns: repeat(2, 32px);
+}
+#wctrl .ictrl
+{
+  grid-row: 1/ span 1;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bray);
+}
+#t_ico
+{
+  top:-4px;
+  content: var(--img-bun);
+}
+#wctrl #t_cls
+{
+  grid-column: 1;
+}
+#wctrl #t_min
+{
+  grid-column: 2;
+}
+#wctrl .ictrl:hover
+{
+  background-color: var(--color-bray_t);
+}
+
+body
+{
+  background-color: var(--color-bray);
+  align-content: center;
+  font-color: white;
+  padding-top:10px;
+
+}
+#window_contain
+{
+  padding-top: 32px;
+  width:100%;
+  height: calc(100% - 32px);
+  position: fixed;
+}
+#menu_anchor
+{
+  position: relative;
+  border-left: var(--border-def);
+  padding-left: 4px;
+  width: 2px;
+}
+.image_01
+{
+  display: none;
+  content: var(--img-nek);
+}
+/*setup all the buttons, set text and function calls individually*/
+.lbl
+{
+  display: none;
+  color: var(--color-bray-t);
+  transition-timing-function: ease;
+  transition: 1s;
+}
+
+.btn
+{
+  height: var(--btn-hit);
+  width: var(--btn-wid);
+  background-color: var(--color-bray-t);
+  border: var(--border-def);
+  transition:.2s;
+  transition-timing-function: ease;
+  text-align: center;
+}
+.btn:hover
+{
+  width: 90px;
+}
+
+.btn:hover > .lbl
+{
+  display: block;
+  color: white;
+}
+
+.btn:active
+{
+  display: block;
+}
