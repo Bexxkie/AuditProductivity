@@ -10,14 +10,16 @@
     --col-dark:rgb(35,39,42);
     --col-dark-a:rgb(45,49,52);
     --col-dark-b:rgb(70,78,84);
-    /*
-    --col-dark-font: black;
-    --col-dark:rgb(194,215,220);
-    --col-dark-a:rgb(200,210,220);
-    --col-dark-b:rgb(100,200,220);
-    */
+
+    --col-light-font: black;
+    --col-light:rgb(247,247,247);
+    --col-light-a:rgb(191,191,191);
+    --col-light-b:rgb(96,96,255);
+
+    --col-blurple-l: rgb(0,132,255);
     --col-blurple-d: rgb(78,93,148);
     --col-console: rgb(0,255,0);
+    --col-console-l: rgb(0,0,255);
 
     --img-nek: url("res/back.jpg");
     --img-bun: url("res/ico.gif");
