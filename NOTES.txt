@@ -9,7 +9,6 @@ timeManager.mjs
 
 
 todo;
-    set 'mode' button to toggle between a light/dark mode
     setup backend to interact with the python scripts
       (or find a new way to handle the interactions)
       

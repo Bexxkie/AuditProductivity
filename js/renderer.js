@@ -158,17 +158,6 @@ function toggleElement(str,b=true){
   myConsole.log(val+str);
   checkState();
   }
-/*
-//returns current time, used in historypane h:m:ss
-function getTime(){
-  var today = new Date();
-  var h = today.getHours();
-  var m = today.getMinutes();
-  var s = today.getSeconds();
-  var t = h+":"+m+":"+s;
-  return(t);
-}*/
-//
 // writes to historypane, autoscrolls to newest line
 function updateHistory(str){
   var pan = document.getElementById('history_box');
