@@ -60,13 +60,13 @@ body{
   left:0;
   height: 100%;
 }
-/*
+
 #icon{
   float:left;
   content:var(--img-bun);
   height: 32px;
 }
-*/
+
 #controls{
   display:grid;
   grid-template-columns: repeat(2,32px);
@@ -125,6 +125,7 @@ body{
   display:block;
   width: 100%;
   background-color: var(--col-dark-b);
+  user-select: none;
 }
 #history_box{
   font-size: 12pt;
@@ -203,7 +204,7 @@ body{
   align-items: center;
   justify-content: center;
 }
-.genButton{
+.genButton, .audButton{
   text-align: center;
   vertical-align: middle;
   width: 100%;
@@ -214,7 +215,7 @@ body{
   user-select: none;
   border-radius: 5px;
 }
-.audButton{
+/*.audButton{
   text-align: center;
   vertical-align: middle;
   width: 100%;
@@ -224,13 +225,13 @@ body{
   background-color: var(--col-dark-a);
   user-select: none;
   border-radius: 5px;
-}
-.genButton:hover{
+}*/
+.genButton:hover, .audButton:hover{
   background-color: var(--col-dark-b) !important;
 }
-.audButton:hover{
+/*.audButton:hover{
   background-color: var(--col-dark-b) !important;
-}
+}*/
 #globalFunc{
   display:block;
   vertical-align: middle;

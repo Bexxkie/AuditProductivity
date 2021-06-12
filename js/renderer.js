@@ -140,11 +140,11 @@ function toggleElement(str,b=true){
   if(b==false){
       toggleMap.set(str,!toggleMap.get(str));
       if(toggleMap.get(str)){
-        document.getElementById(str).style.background = colorBlurple;
+        document.getElementById(str).style.background = getThemeColor(4);
     }else{
       document.getElementById(str).style.background = getThemeColor(1);
     }
-    //updateHistory(str +' '+ toggleMap.get(str));
+    updateHistory(str +' '+ toggleMap.get(str));
     //return;
   }
   else if(document.getElementById(str).style.display == 'none'){
