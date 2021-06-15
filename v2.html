@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title></title>
     <link rel = "shortcut icon" type = "image/gif" href = "res/ico.gif"/>
-    <link rel = "stylesheet" href = "v2-style.css"/>
-    <script src="js/renderer.js" type='module'></script>
+    <link rel = "stylesheet" href = "v2-style.css" id = "stylesheet"/>
+    <script src="js/rendererV2.js" type='module'></script>
     <script src="js/modules/timeManager.mjs" type='module'></script>
     <script src="js/modules/clockManager.mjs" type='module'></script>
   </head>
@@ -14,7 +14,7 @@
       <div id="form-drag-region">
         <div id="form-title-info">
           <img id="form-icon">
-          <div id="form-name"></div>
+          <div id="form-name">Audit Express 4.0</div>
         </div>
         <div id="form-win-controls">
           <div class="win-control-buttons" id="win-btn-close">x</div>
@@ -30,7 +30,7 @@
       </div>
       <div class="form-pages" id="page-history">
         <div class="form-pages-headers">History</div>
-        <textarea id="history-box"></textarea>
+        <textarea id="history-box" disabled=true></textarea>
       </div>
     </div>
     <div id="form-lower">
@@ -38,6 +38,7 @@
         <div class="form-pages-headers">General</div>
         <div class="control-group">
           <div class="control-button"id="btn-autolog">Autolog</div>
+          <div class="control-button"id="btn-theme">Theme</div>
         </div>
       </div>
       <div class="form-pages" id="page-audit-controls">
@@ -48,6 +49,11 @@
           <div class="control-button"id="btn-audit">Audit</div>
         </div>
       </div>
+    </div>
+    <div id='form-footer'>
+      <label class='footer-label' id='footer-l-pass'>Password</label>
+      <textarea id="footer-t-pass" maxlength="20" name="txt_password"></textarea>
+      <label class="footer-label" id="footer-clock">test</label>
     </div>
   </body>
 </html>

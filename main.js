@@ -27,7 +27,7 @@ function createWindow()
     I would /like/ multiple windows but i havent figured that out yet
   */
   // what should be displayed
-  mainWindow.loadFile('test.html')
+  mainWindow.loadFile('v2.html')
 
   //historyWindow.loadFile('historyPane.html')
   // ctrl+r to reload app

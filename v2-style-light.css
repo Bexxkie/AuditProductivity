@@ -1,12 +1,12 @@
 /* put vars here, keep it simple*/
 :root{
-  --font-color: white;
-  --backcolor: rgb(35,39,42);
-  --forecolor: rgb(45,49,52);
-  --outcolor: rgb(70,78,84);
-  --highlitecolor: rgb(78,93,148);
+  --font-color: black;
+  --backcolor: rgb(255,255,255);
+  --forecolor: rgb(255,200,200);
+  --outcolor: rgb(220,220,255);
+  --highlitecolor: rgb(255,150,150);
 
-  --font-console: rgb(0,255,0);
+  --font-console: rgb(80,80,100);
   --radius: 3px;
 
   --icon: url("res/ico.gif");
@@ -207,6 +207,7 @@ body{
 }
 #footer-l-pass{
   padding-right: 8px;
+  color: var(--font-console);
 }
 #footer-t-pass{
   text-align: left;
