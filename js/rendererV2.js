@@ -9,11 +9,12 @@ const win = remote.getCurrentWindow();
 var pane_map = {'history_pane':["page-history","slider-history"],
                   'general_pane':["page-general-controls","slider-general"],
                   'audit_pane':["page-audit-controls","slider-audit"]};
-
+// same as above, but for the toggleButtons
 var btn_map = {'btn-theme':false,
                   'btn-autolog':false};
 
 
+// done laoding event
 document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
         updateState();
@@ -21,24 +22,27 @@ document.onreadystatechange = (event) => {
         clockMan.showTime();
     }
 };
-
-window.onbeforeunload=(event)=>{
+// preload event
+window.onbeforeunload = (event) => {
   win.removeAllListeners();
-}
+};
+
+
+//==============================================================================
+//==============================================================================
+//--------------------Setters---------------------------------------------------
 /**
  * updateState - ensures interface is shown properly
  *
  * @return {none}
  */
 function updateState(){
-  var values = [];
+  var values = [['40px','transparent'],
+                getStyle('--forecolor')];
   for(var pane in pane_map){
     if(document.getElementById(pane_map[pane][0]).style.display!='none'){
         values = [['70px',getStyle('--font-color')],
                        getStyle('--highlitecolor')];
-      }else{
-        values = [['40px','transparent'],
-                           getStyle('--forecolor')];
       }
     updateSlider(pane_map[pane][1],values);
   }
@@ -46,6 +50,8 @@ function updateState(){
     toggleButton(button,true);
   }
 }
+
+
 /**
  * updateSlider - updates sliders to reflect open/close state
  *
@@ -58,6 +64,8 @@ function updateSlider(slider,state){
   getElement(slider).style.width=state[0][0];
   getElement(slider).style.background=state[1];
 }
+
+
 /**
  * updateHistory - sends messages to history_pane
  *
@@ -67,8 +75,10 @@ function updateSlider(slider,state){
 function updateHistory(message){
   var pan = document.getElementById('history-box');
   pan.textContent+=("["+timeMan.getTime()+"]"+message+"\n");
+  //Keep most recent message displayed
   pan.scrollTop = pan.scrollHeight;
 }
+
 
 /**
  * togglePane - toggle display of panes
@@ -77,12 +87,15 @@ function updateHistory(message){
  * @return {none}
  */
 function togglePane(pane){
+  var displayStyle = "block";
   if(getElement(pane).style.display != 'none'){
-    getElement(pane).style.display = "none";
+    displayStyle = "none";
   }
-  else{getElement(pane).style.display = "block";}
+  getElement(pane).style.display = displayStyle;
+
   updateState();
 }
+
 
 /**
  * toggleButton - description
@@ -92,15 +105,18 @@ function togglePane(pane){
  */
 function toggleButton(button,refresh=false){
   updateHistory(button +"-re="+ refresh);
+  var style = '--forecolor';
+  //Toggle button state, if refreshing the style this is skipped
   if(refresh==false){
     btn_map[button] = !btn_map[button];
   }
-    if(isToggled(button)){
-      getElement(button).style.background = getStyle('--highlitecolor');
-  }else{
-    getElement(button).style.background = getStyle('--forecolor');
+  // setappropriate style to buttons
+  if(getToggleState(button)){
+      style = '--highlitecolor';
   }
+  getElement(button).style.background = getStyle(style);
 }
+
 
 /**
  * changeTheme - update the CSS sheet being used.
@@ -109,7 +125,7 @@ function toggleButton(button,refresh=false){
  */
 function changeTheme(){
   var stylesheet = 'v2-style.css';
-  if(isToggled('btn-theme')){
+  if(getToggleState('btn-theme')){
     stylesheet = 'v2-style-light.css';
   }
   getElement('stylesheet').href = stylesheet;
@@ -118,20 +134,24 @@ function changeTheme(){
   //toggleButton('btn-theme', true);
 }
 
+
+//==============================================================================
+//==============================================================================
+//--------------------Getters---------------------------------------------------
+
 /**
  * isToggled - check togglestate of a button
  *
  * @param  {str} btn button
  * @return {bool}     state of button
  */
-function isToggled(btn){
+function getToggleState(btn){
   updateHistory(btn+"=="+btn_map[btn]);
   if(btn_map[btn]){
     return(true);
   }
   return(false);
 }
-
 /**
  * getStyle - short for getComputedStyle....
  *
@@ -141,6 +161,8 @@ function isToggled(btn){
 function getStyle(styleID){
   return(getComputedStyle(document.documentElement).getPropertyValue(styleID));
 }
+
+
 /**
  * getElement - short for getElementById
  *
@@ -150,6 +172,10 @@ function getStyle(styleID){
 function getElement(elementID){
   return(document.getElementById(elementID));
 }
+
+//==============================================================================
+//==============================================================================
+//--------------------Event Handler---------------------------------------------
 /**
  * clickEventHandler - setup clickEvents
  *
@@ -180,5 +206,4 @@ function clickEventHandler(){
       updateState();
     }
   });
-
 }

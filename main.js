@@ -20,7 +20,7 @@ function createWindow()
         enableRemoteModule: true
     }
   })
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   /*
     So im going to use a tab system, which will be handled in the HTML/css i think
