@@ -43,6 +43,9 @@ body{
   transition-timing-function:ease;
   transition: .2s;
 }
+.slider-togg {
+  display:none !important;
+}
 .slider {
   color: transparent;
   float:left;
@@ -82,7 +85,7 @@ body{
   justify-content: space-around;
 
 }
-.control-button {
+.control-button{
   margin: 2px;
   padding: 4px;
   text-align: center;
@@ -236,11 +239,11 @@ body{
 }
 /*---------------------------------------------------------------------------*/
 /*----------setup actions, hover/active/whatever----------*/
-.win-control-buttons:hover ,.control-button:hover{
-background: var(--outcolor);
+.win-control-buttons:hover, .control-button:hover{
+background: var(--outcolor) !important;
 }
-.win-control-buttons:active{
-background: var(--highlitecolor);
+.win-control-buttons:active, .control-button:active{
+background: var(--highlitecolor) !important;
 }
 .slider:hover{
   width: 65px !important;

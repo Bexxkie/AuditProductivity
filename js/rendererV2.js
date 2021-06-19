@@ -18,7 +18,7 @@ var btn_map = {'btn-theme':false,
 document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
         updateState();
-        clickEventHandler();
+        eventListeners();
         clockMan.showTime();
     }
 };
@@ -37,14 +37,15 @@ window.onbeforeunload = (event) => {
  * @return {none}
  */
 function updateState(){
-  var values = [['40px','transparent'],
-                getStyle('--forecolor')];
+  //default state --disabled
+  //
+  //
   for(var pane in pane_map){
-    if(document.getElementById(pane_map[pane][0]).style.display!='none'){
-        values = [['70px',getStyle('--font-color')],
-                       getStyle('--highlitecolor')];
+    if(document.getElementById(pane_map[pane][0]).style.display !='none'){
+        updateSlider(pane_map[pane][1],['70px', getStyle('--font-color'), getStyle('--highlitecolor')]);
+      }else{
+        updateSlider(pane_map[pane][1],['40px','transparent', getStyle('--forecolor')]);
       }
-    updateSlider(pane_map[pane][1],values);
   }
   for(var button in btn_map){
     toggleButton(button,true);
@@ -56,13 +57,13 @@ function updateState(){
  * updateSlider - updates sliders to reflect open/close state
  *
  * @param  {string} slider slider name
- * @param  {array}  state  [width,color]
+ * @param  {array}  state  [width,font_color,backColor]
  * @return {none}
  */
 function updateSlider(slider,state){
-  getElement(slider).style.color=state[0][1];
-  getElement(slider).style.width=state[0][0];
-  getElement(slider).style.background=state[1];
+  getElement(slider).style.width=state[0];
+  getElement(slider).style.color=state[1];
+  getElement(slider).style.background=state[2];
 }
 
 
@@ -92,7 +93,6 @@ function togglePane(pane){
     displayStyle = "none";
   }
   getElement(pane).style.display = displayStyle;
-
   updateState();
 }
 
@@ -104,13 +104,12 @@ function togglePane(pane){
  * @return {none}
  */
 function toggleButton(button,refresh=false){
-  updateHistory(button +"-re="+ refresh);
   var style = '--forecolor';
   //Toggle button state, if refreshing the style this is skipped
   if(refresh==false){
     btn_map[button] = !btn_map[button];
   }
-  // setappropriate style to buttons
+  // set appropriate style to buttons
   if(getToggleState(button)){
       style = '--highlitecolor';
   }
@@ -119,19 +118,18 @@ function toggleButton(button,refresh=false){
 
 
 /**
- * changeTheme - update the CSS sheet being used.
+ * changeTheme - update the stylesheet being used.
  *
- * @return {bool}  completion state
+ * @return {none}
  */
 function changeTheme(){
-  var stylesheet = 'v2-style.css';
-  if(getToggleState('btn-theme')){
-    stylesheet = 'v2-style-light.css';
-  }
-  getElement('stylesheet').href = stylesheet;
-  return(true);
-  //toggleButton('btn-autolog', true);
-  //toggleButton('btn-theme', true);
+    var stylesheet = 'v2-style.css';
+    if(getToggleState('btn-theme')){
+      stylesheet = 'v2-style-light.css';
+    }
+    getElement('stylesheet').href = stylesheet;
+    updateState();
+    updateHistory(getStyle('--backcolor'));
 }
 
 
@@ -143,10 +141,9 @@ function changeTheme(){
  * isToggled - check togglestate of a button
  *
  * @param  {str} btn button
- * @return {bool}     state of button
+ * @return {bool}    button state
  */
 function getToggleState(btn){
-  updateHistory(btn+"=="+btn_map[btn]);
   if(btn_map[btn]){
     return(true);
   }
@@ -175,13 +172,13 @@ function getElement(elementID){
 
 //==============================================================================
 //==============================================================================
-//--------------------Event Handler---------------------------------------------
+//--------------------Event Handler(s?)---------------------------------------------
 /**
  * clickEventHandler - setup clickEvents
  *
  * @return {none}
  */
-function clickEventHandler(){
+function eventListeners(){
   getElement('win-btn-close').addEventListener("click", event => {
     win.close();
   });
@@ -201,9 +198,7 @@ function clickEventHandler(){
     toggleButton('btn-autolog');
   });
   getElement('btn-theme').addEventListener("click", event => {
-    toggleButton('btn-theme');
-    if(changeTheme()){
-      updateState();
-    }
+    toggleButton('btn-theme')
+    changeTheme();
   });
 }
