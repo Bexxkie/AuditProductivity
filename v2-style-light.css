@@ -172,9 +172,17 @@ body{
   background-color: transparent;
   color: var(--font-console);
   resize:none;
-  word-wrap:normal;
+  word-wrap: break-word;
   padding-top: 4px;
   padding-left: 4px;
+}
+#history-box::-webkit-scrollbar{
+  width: 15px;
+  background-color: var(--outcolor);
+}
+#history-box::-webkit-scrollbar-thumb{
+  width: 15px;
+  background-color: var(--highlitecolor);
 }
 
 /*---------------------------------------*/

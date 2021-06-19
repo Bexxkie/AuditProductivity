@@ -11,4 +11,7 @@ timeManager.mjs
 todo;
     setup backend to interact with the python scripts
       (or find a new way to handle the interactions)
-      
+
+
+
+redo the HTML and clean it up, or at least put better varnames.

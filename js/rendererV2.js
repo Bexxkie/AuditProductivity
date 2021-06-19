@@ -5,15 +5,13 @@ var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
 const remote = require('electron').remote;
 const win = remote.getCurrentWindow();
 
-// panes to be itered through, insert into update_map
-var history_pane = ["page-history","slider-history"];
-var general_pane = ["page-general-controls","slider-general"];
-var audit_pane = ["page-audit-controls","slider-audit"];
-
 // panes to iter through for updating display
-var update_map = {'history_pane':history_pane,'general_pane':general_pane,'audit_pane':audit_pane};
+var pane_map = {'history_pane':["page-history","slider-history"],
+                  'general_pane':["page-general-controls","slider-general"],
+                  'audit_pane':["page-audit-controls","slider-audit"]};
 
-var toggle_map = {'btn-theme':false,'btn-autolog':false};
+var btn_map = {'btn-theme':false,
+                  'btn-autolog':false};
 
 
 document.onreadystatechange = (event) => {
@@ -34,16 +32,20 @@ window.onbeforeunload=(event)=>{
  */
 function updateState(){
   var values = [];
-  for(var pane in update_map){
-    if(document.getElementById(update_map[pane][0]).style.display!='none'){
-      values = [['70px',getComputedStyle(document.documentElement).getPropertyValue('--font-color')],getComputedStyle(document.documentElement).getPropertyValue('--highlitecolor')];
-    }else{
-      values = [['40px','transparent'],getComputedStyle(document.documentElement).getPropertyValue('--forecolor')];
-    }
-    updateSlider(update_map[pane][1],values);
+  for(var pane in pane_map){
+    if(document.getElementById(pane_map[pane][0]).style.display!='none'){
+        values = [['70px',getStyle('--font-color')],
+                       getStyle('--highlitecolor')];
+      }else{
+        values = [['40px','transparent'],
+                           getStyle('--forecolor')];
+      }
+    updateSlider(pane_map[pane][1],values);
+  }
+  for(var button in btn_map){
+    toggleButton(button,true);
   }
 }
-
 /**
  * updateSlider - updates sliders to reflect open/close state
  *
@@ -52,9 +54,9 @@ function updateState(){
  * @return {none}
  */
 function updateSlider(slider,state){
-  document.getElementById(slider).style.color=state[0][1];
-  document.getElementById(slider).style.width=state[0][0];
-  document.getElementById(slider).style.background=state[1];
+  getElement(slider).style.color=state[0][1];
+  getElement(slider).style.width=state[0][0];
+  getElement(slider).style.background=state[1];
 }
 /**
  * updateHistory - sends messages to history_pane
@@ -75,10 +77,10 @@ function updateHistory(message){
  * @return {none}
  */
 function togglePane(pane){
-  if(document.getElementById(pane).style.display != 'none'){
-    document.getElementById(pane).style.display = "none";
+  if(getElement(pane).style.display != 'none'){
+    getElement(pane).style.display = "none";
   }
-  else{document.getElementById(pane).style.display = "block";}
+  else{getElement(pane).style.display = "block";}
   updateState();
 }
 
@@ -89,20 +91,64 @@ function togglePane(pane){
  * @return {none}
  */
 function toggleButton(button,refresh=false){
+  updateHistory(button +"-re="+ refresh);
   if(refresh==false){
-    toggle_map[button] = !toggle_map[button];
+    btn_map[button] = !btn_map[button];
   }
-    if(toggle_map[button]==true){
-      document.getElementById(button).style.background = getComputedStyle(document.documentElement).getPropertyValue('--highlitecolor');
+    if(isToggled(button)){
+      getElement(button).style.background = getStyle('--highlitecolor');
   }else{
-    document.getElementById(button).style.background = getComputedStyle(document.documentElement).getPropertyValue('--forecolor');
+    getElement(button).style.background = getStyle('--forecolor');
   }
 }
-function changeTheme(stylesheet){
-  document.getElementById('stylesheet').href = stylesheet;
-  updateState();
-  toggleButton('btn-autolog', true);
-  toggleButton('btn-theme', true);
+
+/**
+ * changeTheme - update the CSS sheet being used.
+ *
+ * @return {bool}  completion state
+ */
+function changeTheme(){
+  var stylesheet = 'v2-style.css';
+  if(isToggled('btn-theme')){
+    stylesheet = 'v2-style-light.css';
+  }
+  getElement('stylesheet').href = stylesheet;
+  return(true);
+  //toggleButton('btn-autolog', true);
+  //toggleButton('btn-theme', true);
+}
+
+/**
+ * isToggled - check togglestate of a button
+ *
+ * @param  {str} btn button
+ * @return {bool}     state of button
+ */
+function isToggled(btn){
+  updateHistory(btn+"=="+btn_map[btn]);
+  if(btn_map[btn]){
+    return(true);
+  }
+  return(false);
+}
+
+/**
+ * getStyle - short for getComputedStyle....
+ *
+ * @param  {str} styleID css styleId
+ * @return {obj}         style object
+ */
+function getStyle(styleID){
+  return(getComputedStyle(document.documentElement).getPropertyValue(styleID));
+}
+/**
+ * getElement - short for getElementById
+ *
+ * @param  {str} elementID  css elementId
+ * @return {obj}            element object
+ */
+function getElement(elementID){
+  return(document.getElementById(elementID));
 }
 /**
  * clickEventHandler - setup clickEvents
@@ -110,35 +156,29 @@ function changeTheme(stylesheet){
  * @return {none}
  */
 function clickEventHandler(){
-  document.getElementById('win-btn-close').addEventListener("click", event => {
+  getElement('win-btn-close').addEventListener("click", event => {
     win.close();
   });
-  document.getElementById('win-btn-minimize').addEventListener("click", event => {
+  getElement('win-btn-minimize').addEventListener("click", event => {
     win.minimize();
   });
-  document.getElementById('slider-history').addEventListener("click", event => {
+  getElement('slider-history').addEventListener("click", event => {
     togglePane("page-history");
   });
-  document.getElementById('slider-general').addEventListener("click", event => {
+  getElement('slider-general').addEventListener("click", event => {
     togglePane("page-general-controls");
   });
-  document.getElementById('slider-audit').addEventListener("click", event => {
+  getElement('slider-audit').addEventListener("click", event => {
     togglePane("page-audit-controls");
   });
-
-  document.getElementById('btn-autolog').addEventListener("click", event => {
+  getElement('btn-autolog').addEventListener("click", event => {
     toggleButton('btn-autolog');
   });
-  document.getElementById('btn-theme').addEventListener("click", event => {
+  getElement('btn-theme').addEventListener("click", event => {
     toggleButton('btn-theme');
-    if(toggle_map['btn-theme']){
-      //true - set to light
-      changeTheme("v2-style-light.css");
-      changeTheme("v2-style-light.css");
-    }else{
-      changeTheme("v2-style.css");
-      changeTheme("v2-style.css");
+    if(changeTheme()){
+      updateState();
     }
-
   });
+
 }
