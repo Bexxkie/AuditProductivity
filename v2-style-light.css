@@ -43,8 +43,8 @@ body{
   transition-timing-function:ease;
   transition: .2s;
 }
-.slider-togg {
-  display:none !important;
+.slider-toggle, .btn-toggle, .page-toggle{
+  display:none;
 }
 .slider {
   color: transparent;
@@ -66,6 +66,7 @@ body{
   border-bottom-right-radius: 12px;
 }
 .form-pages {
+  display: block;
   text-align: center;
   resize: none;
   background: var(--backcolor);
@@ -164,7 +165,6 @@ body{
   align-items: center;
 }
 #page-history{
-  display: block;
   width: 310px;
   height: 200px;
 }
@@ -242,7 +242,7 @@ body{
 .win-control-buttons:hover, .control-button:hover{
 background: var(--outcolor) !important;
 }
-.win-control-buttons:active, .control-button:active{
+.win-control-buttons:active, .control-button:active, .control-button:focus{
 background: var(--highlitecolor) !important;
 }
 .slider:hover{
@@ -252,7 +252,19 @@ background: var(--highlitecolor) !important;
   border-top-right-radius: var(--radius) !important;
   border-bottom-right-radius: var(--radius) !important;
 }
-.slider:active{
+.slider:active, .slider:focus{
   width: 70px !important;
   background-color: var(--highlitecolor) !important;
+}
+.slider-toggle:checked + .slider{
+  width: 70px !important;
+  color: var(--font-color) !important;
+  background-color: var(--highlitecolor) !important;
+}
+.btn-toggle:checked + .control-button{
+  color: var(--font-color) !important;
+  background: var(--highlitecolor) !important;
+}
+.page-toggle:checked + .form-pages{
+  display: block;
 }

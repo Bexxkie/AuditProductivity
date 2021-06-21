@@ -24,23 +24,31 @@
     </header>
     <div id="form-main">
       <div id="form-slider-group">
+        <input type='checkbox' class="slider-toggle" id="tog-hist"/>
         <div class="slider" id="slider-history">History</div>
+        <input type='checkbox' class="slider-toggle" id="tog-gen"/>
         <div class="slider" id="slider-general">General</div>
+        <input type='checkbox' class="slider-toggle" id="tog-aud" />
         <div class="slider" id="slider-audit">Audit</div>
       </div>
+      <input type='checkbox' class="page-toggle" id="tog-hist-p" />
       <div class="form-pages" id="page-history">
         <div class="form-pages-headers">History</div>
         <textarea id="history-box" disabled=true></textarea>
       </div>
     </div>
     <div id="form-lower">
+      <input type='checkbox' class="page-toggle" id="tog-gen-p" />
       <div class="form-pages" id="page-general-controls">
         <div class="form-pages-headers">General</div>
         <div class="control-group">
+          <input type='checkbox' class="btn-toggle" id="tog-alo" />
           <div class="control-button"id="btn-autolog">Autolog</div>
+          <input type='checkbox' class="btn-toggle" id="tog-thme" />
           <div class="control-button"id="btn-theme">Theme</div>
         </div>
       </div>
+      <input type='checkbox' class="page-toggle" id="tog-aud-p" />
       <div class="form-pages" id="page-audit-controls">
         <div class="form-pages-headers">Audit</div>
         <div class="control-group">

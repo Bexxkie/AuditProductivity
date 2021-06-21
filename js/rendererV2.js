@@ -5,19 +5,18 @@ var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
 const remote = require('electron').remote;
 const win = remote.getCurrentWindow();
 
-// panes to iter through for updating display
-var pane_map = {'history_pane':["page-history","slider-history"],
-                  'general_pane':["page-general-controls","slider-general"],
-                  'audit_pane':["page-audit-controls","slider-audit"]};
+//slider:checkbox
+var slider_map = {'slider-history':["tog-hist",'tog-hist-p'],
+                  'slider-general':['tog-gen','tog-gen-p'],
+                  'slider-audit':['tog-aud','tog-aud-p']};
 // same as above, but for the toggleButtons
-var btn_map = {'btn-theme':false,
-                  'btn-autolog':false};
+var btn_map = {'btn-theme':'tog-thme',
+                  'btn-autolog':'tog-alo'};
 
 
 // done laoding event
 document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
-        updateState();
         eventListeners();
         clockMan.showTime();
     }
@@ -31,42 +30,6 @@ window.onbeforeunload = (event) => {
 //==============================================================================
 //==============================================================================
 //--------------------Setters---------------------------------------------------
-/**
- * updateState - ensures interface is shown properly
- *
- * @return {none}
- */
-function updateState(){
-  //default state --disabled
-  //
-  //
-  for(var pane in pane_map){
-    if(document.getElementById(pane_map[pane][0]).style.display !='none'){
-        updateSlider(pane_map[pane][1],['70px', getStyle('--font-color'), getStyle('--highlitecolor')]);
-      }else{
-        updateSlider(pane_map[pane][1],['40px','transparent', getStyle('--forecolor')]);
-      }
-  }
-  for(var button in btn_map){
-    toggleButton(button,true);
-  }
-}
-
-
-/**
- * updateSlider - updates sliders to reflect open/close state
- *
- * @param  {string} slider slider name
- * @param  {array}  state  [width,font_color,backColor]
- * @return {none}
- */
-function updateSlider(slider,state){
-  getElement(slider).style.width=state[0];
-  getElement(slider).style.color=state[1];
-  getElement(slider).style.background=state[2];
-}
-
-
 /**
  * updateHistory - sends messages to history_pane
  *
@@ -88,12 +51,9 @@ function updateHistory(message){
  * @return {none}
  */
 function togglePane(pane){
-  var displayStyle = "block";
-  if(getElement(pane).style.display != 'none'){
-    displayStyle = "none";
-  }
-  getElement(pane).style.display = displayStyle;
-  updateState();
+  updateHistory(pane);
+  getElement(slider_map[pane][0]).checked = !getElement(slider_map[pane][0]).checked;
+  getElement(slider_map[pane][1]).checked = !getElement(slider_map[pane][1]).checked;
 }
 
 
@@ -103,19 +63,10 @@ function togglePane(pane){
  * @param  {string} button button name to update
  * @return {none}
  */
-function toggleButton(button,refresh=false){
-  var style = '--forecolor';
-  //Toggle button state, if refreshing the style this is skipped
-  if(refresh==false){
-    btn_map[button] = !btn_map[button];
-  }
-  // set appropriate style to buttons
-  if(getToggleState(button)){
-      style = '--highlitecolor';
-  }
-  getElement(button).style.background = getStyle(style);
+function toggleButton(button){
+  updateHistory(btn_map[button]);
+  getElement(btn_map[button]).checked = !getElement(btn_map[button]).checked;
 }
-
 
 /**
  * changeTheme - update the stylesheet being used.
@@ -128,8 +79,6 @@ function changeTheme(){
       stylesheet = 'v2-style-light.css';
     }
     getElement('stylesheet').href = stylesheet;
-    updateState();
-    updateHistory(getStyle('--backcolor'));
 }
 
 
@@ -144,7 +93,7 @@ function changeTheme(){
  * @return {bool}    button state
  */
 function getToggleState(btn){
-  if(btn_map[btn]){
+  if(getElement(btn_map[btn]).checked){
     return(true);
   }
   return(false);
@@ -186,13 +135,13 @@ function eventListeners(){
     win.minimize();
   });
   getElement('slider-history').addEventListener("click", event => {
-    togglePane("page-history");
+    togglePane("slider-history");
   });
   getElement('slider-general').addEventListener("click", event => {
-    togglePane("page-general-controls");
+    togglePane("slider-general");
   });
   getElement('slider-audit').addEventListener("click", event => {
-    togglePane("page-audit-controls");
+    togglePane("slider-audit");
   });
   getElement('btn-autolog').addEventListener("click", event => {
     toggleButton('btn-autolog');
