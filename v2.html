@@ -5,7 +5,7 @@
     <title></title>
     <link rel = "shortcut icon" type = "image/gif" href = "res/ico.gif"/>
     <link rel = "stylesheet" href = "v2-style.css" id = "stylesheet"/>
-    <script src="js/rendererV2.js" type='module'></script>
+    <script src="js/rendererV2_testing.js" type='module'></script>
     <script src="js/modules/timeManager.mjs" type='module'></script>
     <script src="js/modules/clockManager.mjs" type='module'></script>
   </head>
@@ -24,14 +24,14 @@
     </header>
     <div id="form-main">
       <div id="form-slider-group">
-        <input type='checkbox' class="slider-toggle" id="tog-hist"/>
+        <input type='checkbox' class="slider-toggle" id="tog-hist" checked/>
         <div class="slider" id="slider-history">History</div>
         <input type='checkbox' class="slider-toggle" id="tog-gen"/>
         <div class="slider" id="slider-general">General</div>
         <input type='checkbox' class="slider-toggle" id="tog-aud" />
         <div class="slider" id="slider-audit">Audit</div>
       </div>
-      <input type='checkbox' class="page-toggle" id="tog-hist-p" />
+      <input type='checkbox' class="page-toggle" id="tog-hist-p" checked/>
       <div class="form-pages" id="page-history">
         <div class="form-pages-headers">History</div>
         <textarea id="history-box" disabled=true></textarea>
@@ -58,6 +58,7 @@
         </div>
       </div>
     </div>
+    <input type='checkbox' class="foot-toggle" id="tog-fot-p"/>
     <div id='form-footer'>
       <label class='footer-label' id='footer-l-pass'>Password</label>
       <textarea id="footer-t-pass" maxlength="20" name="txt_password"></textarea>

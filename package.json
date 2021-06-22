@@ -6,12 +6,14 @@
   "author": "BrianKG",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^13.0.1"
+    "electron": "^13.1.2"
   },
   "scripts": {
     "start": "electron ."
   },
   "dependencies": {
-    "electron-css-reload": "^1.0.8"
+    "electron-css-reload": "^1.0.8",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
   }
 }

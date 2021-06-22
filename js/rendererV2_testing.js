@@ -6,7 +6,15 @@ const remote = require('electron').remote;
 const win = remote.getCurrentWindow();
 const { spawn } = require('child_process');
 
-const relay = spawn('python',['./py/test.py']);
+const relay = spawn('python',['./py/listener.py'] ,{
+    stdio: 'pipe'
+});
+// Backend testing here
+function sendToRelay(msg){
+  relay.stdin.write(msg+'\n');
+  }
+// cant believe its this easy...
+
 
 
 //slider:checkbox
@@ -35,12 +43,15 @@ window.onbeforeunload = (event) => {
 //==============================================================================
 //--------------------Setters---------------------------------------------------
 /**
- * updateHistory - sends messages to history_pane
+ * story - sends messages to history_pane
  * @param  {string} message printed message
  */
 function updateHistory(message){
   var pan = getElement('history-box');
-  pan.textContent+=("["+timeMan.getTime()+"]"+message+"\n");
+  if(message.startsWith('tstamp')){
+    message = message.replace('tstamp',"["+timeMan.getTime()+"]");
+  }
+  pan.textContent+=(message);
   //Keep most recent message displayed
   pan.scrollTop = pan.scrollHeight;
 }
@@ -51,6 +62,7 @@ function updateHistory(message){
  * @param  {bool} button=false true for toggleButton
  */
 function toggleElement(element,button=false){
+  sendToRelay(element);
   if(!button){
     getElement(slider_map[element][0]).checked = !getElement(slider_map[element][0]).checked;
     getElement(slider_map[element][1]).checked = !getElement(slider_map[element][1]).checked;
@@ -70,10 +82,6 @@ function toggleElement(element,button=false){
 function changeTheme(){
     getElement('stylesheet').href = stylesheets[+(getElement('tog-thme').checked)];
 }
-function sendToRelay(msg){
-  relay.stdin.write(msg);
-  relay.stdin.end();
-}
 //==============================================================================
 //==============================================================================
 //--------------------Getters---------------------------------------------------
@@ -88,6 +96,7 @@ function getElement(elementID){
 //--------------------Event Handler---------------------------------------------
 function eventListeners(){
   getElement('win-btn-close').addEventListener("click", event => {
+    relay.kill();
     win.close();
   });
   getElement('win-btn-minimize').addEventListener("click", event => {
@@ -95,30 +104,32 @@ function eventListeners(){
   });
   getElement('slider-history').addEventListener("click", event => {
     toggleElement("slider-history");
-    sendToRelay('slider-history');
   });
   getElement('slider-general').addEventListener("click", event => {
     toggleElement("slider-general");
-    sendToRelay('slider-general');
   });
   getElement('slider-audit').addEventListener("click", event => {
     toggleElement("slider-audit");
-    sendToRelay('slider-audit');
   });
   getElement('btn-autolog').addEventListener("click", event => {
     toggleElement('btn-autolog',true);
-    sendToRelay('btn-autolog');
   });
   getElement('btn-theme').addEventListener("click", event => {
     toggleElement('btn-theme',true);
-    sendToRelay('btn-theme');
     changeTheme();
   });
   relay.stdout.on('data', function(data)
   {
-    updateHistory(data)
+    updateHistory(data.toString())
   });
-
+  relay.stderr.on('data', function(data)
+  {
+    updateHistory(data.toString())
+  });
+  relay.on('close', function(close)
+  {
+    updateHistory(close);
+  });
 }
 
 //------------------------------------------------------------------------------

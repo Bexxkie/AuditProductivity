@@ -43,9 +43,10 @@ body{
   transition-timing-function:ease;
   transition: .2s;
 }
-.slider-toggle, .btn-toggle, .page-toggle{
-  display:none;
+.slider-toggle, .btn-toggle, .page-toggle, .foot-toggle{
+  display: none;
 }
+
 .slider {
   color: transparent;
   float:left;
@@ -55,7 +56,7 @@ body{
   border: 2px solid var(--outcolor);
   border-left: none;
   line-height: 60px;
-  padding-left: 10px;
+  padding-left: 5px;
   width: 40px;
   height: 65px;
   background-color: var(--forecolor);
@@ -66,7 +67,7 @@ body{
   border-bottom-right-radius: 12px;
 }
 .form-pages {
-  display: block;
+  display:none;
   text-align: center;
   resize: none;
   background: var(--backcolor);
@@ -86,7 +87,7 @@ body{
   justify-content: space-around;
 
 }
-.control-button{
+.control-button, .control-button-togg {
   margin: 2px;
   padding: 4px;
   text-align: center;
@@ -203,14 +204,11 @@ body{
   border-bottom-left-radius: 0px !important;
   margin: 2px;
 }
-#page-general-controls{
-  display: ;
-}
 
 /*---------------------------------------*/
 /*-----setup footer-----*/
 #form-footer{
-  display: block;
+  display: none;
   padding-top: 2px;
   width: 100%;
   user-select: none;
@@ -218,7 +216,6 @@ body{
 }
 #footer-l-pass{
   padding-right: 8px;
-  color: var(--font-console);
 }
 #footer-t-pass{
   text-align: left;
@@ -242,7 +239,8 @@ body{
 .win-control-buttons:hover, .control-button:hover{
 background: var(--outcolor) !important;
 }
-.win-control-buttons:active, .control-button:active, .control-button:focus{
+
+.win-control-buttons:active, .control-button:active,.control-button:focus{
 background: var(--highlitecolor) !important;
 }
 .slider:hover{
@@ -252,10 +250,12 @@ background: var(--highlitecolor) !important;
   border-top-right-radius: var(--radius) !important;
   border-bottom-right-radius: var(--radius) !important;
 }
-.slider:active, .slider:focus{
+.slider:active,.slider:focus{
   width: 70px !important;
   background-color: var(--highlitecolor) !important;
 }
+/*---------------------------------------------------------------------------*/
+/*----------setup toggles, sliders and buttons ----------*/
 .slider-toggle:checked + .slider{
   width: 70px !important;
   color: var(--font-color) !important;
@@ -267,4 +267,8 @@ background: var(--highlitecolor) !important;
 }
 .page-toggle:checked + .form-pages{
   display: block;
+}
+
+.foot-toggle:checked + #form-footer{
+  display:block;
 }

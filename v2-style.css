@@ -43,7 +43,7 @@ body{
   transition-timing-function:ease;
   transition: .2s;
 }
-.slider-toggle, .btn-toggle, .page-toggle{
+.slider-toggle, .btn-toggle, .page-toggle, .foot-toggle{
   display: none;
 }
 
@@ -165,6 +165,7 @@ body{
   height: 200px;
   align-items: center;
 }
+
 #page-history{
   width: 310px;
   height: 200px;
@@ -208,7 +209,7 @@ body{
 /*---------------------------------------*/
 /*-----setup footer-----*/
 #form-footer{
-  display: block;
+  display: none;
   padding-top: 2px;
   width: 100%;
   user-select: none;
@@ -254,6 +255,8 @@ background: var(--highlitecolor) !important;
   width: 70px !important;
   background-color: var(--highlitecolor) !important;
 }
+/*---------------------------------------------------------------------------*/
+/*----------setup toggles, sliders and buttons ----------*/
 .slider-toggle:checked + .slider{
   width: 70px !important;
   color: var(--font-color) !important;
@@ -265,4 +268,8 @@ background: var(--highlitecolor) !important;
 }
 .page-toggle:checked + .form-pages{
   display: block;
+}
+
+.foot-toggle:checked + #form-footer{
+  display:block;
 }
