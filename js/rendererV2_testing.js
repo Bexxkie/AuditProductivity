@@ -11,7 +11,7 @@ const relay = spawn('python',['./py/listener.py'] ,{
 });
 // Backend testing here
 function sendToRelay(msg){
-  relay.stdin.write(msg+'\n');
+  relay.stdin.write(msg+'*'+getElement('footer-t-pass').value+'\n');
   }
 // cant believe its this easy...
 
@@ -91,6 +91,7 @@ function getStyle(styleID){
 function getElement(elementID){
   return(document.getElementById(elementID));
 }
+
 //==============================================================================
 //==============================================================================
 //--------------------Event Handler---------------------------------------------
@@ -128,7 +129,7 @@ function eventListeners(){
   });
   relay.on('close', function(close)
   {
-    updateHistory(close);
+    updateHistory(close.toString());
   });
 }
 
