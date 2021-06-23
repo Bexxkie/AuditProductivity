@@ -3,18 +3,30 @@
 # btn-departures
 # btn-folios
 # btn-audit
+import threading
 import os
 import ctypes
 import asyncio
+import sys
+import time
+import keyboard
 import pyautogui as pg
 from PIL import Image
+
+
 user32 = ctypes.windll.user32
+idir = os.getcwd()+'\\res\\image_refs\\'
+
 args = \
 {
-    'autolog':False,
-    'threadStop':False,
+    'autoLog':0,
+    'threadStop':0,
+    "loginThread": threading.Thread(name="autologin_thread"),
+    'keyThread': threading.Thread(name="keyListener_thread"),
+    'delay':2,
+    'debug':0,
+    'pass':'',
 }
-idir = ('C:\\Users\\admin\\AuditProductivity\\AuditExpress\\image_refs\\')
 image_list = \
 {
     ## root
@@ -53,75 +65,142 @@ image_list = \
     "r_order": idir + "folio\\room_order.png",
     "sim": idir + "folio\\simulate.png",
 }
-# seperates password and control data
+
+# seperates communication type, command name, and password
+# @'comtype'>'comname'*'password'
 def interpret(message):
-    message = message.split('*')
-    control = message[0]
-    password = message[1]
-    msg = execute(control)
-    return(msg)
+    messge = message.split('*')     #[@comtype>>comname, password]
+    contrl = messge[0].split('>>')   #[@comtype, comname]
+    comtpe = contrl[0]              # @comtype
+    contrl = contrl[1]              # comname(?%value)
+    passwd = messge[1]              # password
+    if(passwd != args['pass']):
+        args['pass'] = passwd
+    # get commandType
+    if comtpe == '@com':
+        # command, button click to do something
+        return execute(contrl)
+    if comtpe == '@set':
+        # set variable
+        args[contrl.split('%')[0]] = int(contrl.split('%')[1])
+        if args['debug']:
+            return '   @inf<<'+contrl+' : '+str(args[contrl.split('%')[0]])
+        return '@inf<<'
+    return '@inf<<no command'
+
+
+# get new value from JS
+def request_var(argname):
+    print('@req<<'+argname+'\n')
 
 # execute commands linked to a control
 def execute(control):
     if control == 'btn-autolog':
         # since autolog is a toggle, i need to ensure the togglestate is accurate.
         # so on the return it should be like 'yo this is off, or this is on'
-        if(asyncio.run(find_login())):
-            return('found_login')
-        return('no_login')
-    return(control)
+        if args['autoLog']:
+            args["loginThread"] = threading.Thread(target=auto_log, daemon=1)
+            args["loginThread"].start()
+            args['keyListener'] = threading.Thread(target=keyListener,daemon=1)
+            args['keyListener'].start()
+    return '@tim<<'+control
 
+#KeyboardInterrupt
+def keyListener():
+    while args['keyListener'].is_alive() and args['loginThread'].is_alive():
+        if keyboard.is_pressed("escape"):
+            args["threadStop"] = 1
+    print('@psh<<btn-autolog%'+str(args['autoLog']))
+    print('closing thread')
+    sys.stdout.flush()
+    sys.exit("stopping thread")
 
-
+# setup loading stuff
 def initialize():
     ind = 0
     maxSize = len(image_list)
     for image in image_list.keys():
         image_list[image] = Image.open(image_list[image])
         ind+=1
-        #return_message(str(ind)+'/'+str(maxSize)+' files','')
-    #return_message("loading complete",'')
+
+def auto_log():
+    """DISPATCH LOGIN THREAD"""
+    asyncio.run(alog_helper())
+    args['loginThread'].join()
+#
+# Login functions
+#
+#
+async def alog_helper():
+    """LOGIN THREAD"""
+    while args["autoLog"]:
+        if user32.GetForegroundWindow() != 0:
+            sys.stdout.flush()
+            if await find_login():
+                await type_object(args["pass"])
+                await click_object(await find_object("btn_login"))
+        else:
+            time.sleep(args['delay'])
+    return
+
+
 async def find_login():
     """FIND LOGIN_BOX, CLICKS AND RETURNS BOOL"""
     if await find_object("login"):
         await click_object(await find_object("login"))
-        return True
+        return 1
     if await find_object("login_a"):
         await click_object(await find_object("login_a"))
-        return True
-    return False
+        return 1
+    return 0
 
-async def find_object(image_string):
-    """RETRIEVE RECT, STRING"""
-    # print(image_string)
-    if not await(heartbeat()):
-        try:
-            rect = pg.locateOnScreen(image_list[image_string], grayscale=True)
-            # print(rect)
-            return rect
-        except OSError as _err:
-            print(_err)
-            await heartbeat(True)
 
-async def heartbeat(force_stop=False):
+#
+# Thread helpers
+#
+#
+async def heartbeat(force_stop=0):
     """ENSURE THREAD SHOULD BE RUNNING,
     PRESSING ESCAPE SIGNALS A SHUTDOWN
     force_stop TRUE forcibly kills thread
     """
     if args["threadStop"] or force_stop:
         if args["autoLog"]:
-            args["autoLog"] = False
-            #print_history("-cancelled_command")
-        args["threadStop"] = False
-        sys.exit("Cancelling_thread")
+            args["autoLog"] = 0
+        args["threadStop"] = 0
+        sys.exit('closing thread')
 
-async def click_object(rect, dbl=False):
+#
+# General functions
+#
+#
+async def find_object(image_string):
+    """RETRIEVE RECT, STRING"""
+    # print(image_string)
+    if not await(heartbeat()):
+        try:
+            rect = pg.locateOnScreen(image_list[image_string], grayscale=1)
+            # print(rect)
+            return rect
+        except OSError as _err:
+            print('   @inf<<'+_err)
+            await heartbeat(1)
+
+async def click_object(rect, dbl=0):
     """SEND CLICK EVENT, RECT, BOOL"""
     if rect is None:
-        return False
+        return 0
     if dbl:
         pg.doubleClick(rect)
     else:
         pg.click(rect)
     await asyncio.sleep(args["delay"])
-    return True
+    return 1
+
+async def type_object(string, press=0, count=1):
+    """SEND TYPE EVENT, STRING, BOOL, INT"""
+    if press:
+        pg.press(string, presses=count)
+    else:
+        pg.typewrite(string)
+    return 1
