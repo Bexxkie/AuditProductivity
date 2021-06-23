@@ -103,6 +103,8 @@ def execute(control):
             args["loginThread"].start()
             args['keyListener'] = threading.Thread(target=keyListener,daemon=1)
             args['keyListener'].start()
+
+
     return '@tim<<'+control
 
 #KeyboardInterrupt
@@ -126,7 +128,7 @@ def initialize():
 def auto_log():
     """DISPATCH LOGIN THREAD"""
     asyncio.run(alog_helper())
-    args['loginThread'].join()
+    sys.exit()
 #
 # Login functions
 #
@@ -165,7 +167,7 @@ async def heartbeat(force_stop=0):
     force_stop TRUE forcibly kills thread
     """
     if args["threadStop"] or force_stop:
-        if args["autoLog"]:
+        if args["autoLog"]==1:
             args["autoLog"] = 0
         args["threadStop"] = 0
         sys.exit('closing thread')
