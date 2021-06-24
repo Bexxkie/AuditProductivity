@@ -1,33 +1,13 @@
-import time
 import sys
-import asyncio
-import os
-import keyboard
-import threading
-
+#
+import shared
 import handler
-
-
-def return_message(msg):
-    sys.stdout.write(msg+'\n')
-    sys.stdout.flush()
-
-
-def comListener():
-    return_message('@tim<<Ready')
+def main():
+    shared.return_message('@info%1%Ready')
     for msg in sys.stdin:
-        if handler.args['debug']:
+        if shared.get('debug'):
             con = msg.split('*')
             con[1] = '*'*len(con[1])
-            return_message("   "+str(con[0]+con[1]))
-        rm = handler.interpret(msg.strip())
-        return_message(rm)
+            shared.return_message("@info%1%"+str(con[0]+con[1]))
+        handler.interpret(msg) # send to handler
         #time.sleep(1)
-
-# return Image object
-def request(filename):
-    return imagelist[filename]
-
-
-handler.initialize()
-comListener()

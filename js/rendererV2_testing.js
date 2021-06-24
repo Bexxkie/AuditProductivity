@@ -7,15 +7,20 @@ const win = remote.getCurrentWindow();
 const { spawn } = require('child_process');
 
 
-const relay = spawn('python',['./py/listener.py'] ,{
+
+const relay = spawn('python',['./py/MAIN.py'] ,{
     stdio: 'pipe'
 });
 // Backend testing here
 function sendToRelay(msg){
+  //relay.stdin.write(msg+'\n');
   relay.stdin.write(msg+'*'+getElement('footer-t-pass').value+'\n');
+  //updateHistory(msg+'\n');
   }
+
 // return calls from python
 function interpret(msg){
+  /* this is getting over-complicated, simplify..
   var content = msg.split('<<');
   updateHistory(content[1])
   switch(content[0]){
@@ -37,8 +42,45 @@ function interpret(msg){
       break
     default:
       updateHistory(msg);
+  }*/
+
+  //
+  // So this function is basically the input for everything from 'relay'
+  // We need to read the string and determine what it is
+  // So set up a format to read
+  // were going to need the following
+  // text output for INFO (w or w/o timestamp)
+  // control settings/adjustments (like i wanna toggle a button or something)
+  // This is the stuff PY is asking/telling us
+  // split msg by %
+  // [0] [1] [2] [3]
+  // @info%timestamp(bool)%String to print to historyPane(may contain spaces)
+  // @ctrl%set/get(bool)%controlName
+
+  msg = msg.split('%');
+  if(msg[0] == '@info'){
+    var print_string = msg[2];
+    if(msg[1]){
+      print_string = "["+timeMan.getTime()+"]"+msg[2];
+    }
+    updateHistory(print_string);
+  }
+  if(msg[0]=='@ctrl'){
+
   }
 }
+function writeCommand(cmdName){
+  return('@comd%'+cmdName);
+}
+//@comd%set/get(1/0)%comName%value
+function writeVariable(varName,value){
+  return('@ctrl%1%'+varName+"%"+value);
+}
+function readVariable(varName){
+  return("@ctrl%0"+varName);
+}
+
+/* stuff is getting stupid so im gonna refactor
 function recieveData(data){
   data = data.split('%')
   updateHistory(data[0])
@@ -62,6 +104,7 @@ function updateVar(varName){
       break
   }
 }
+*/
 
 
 //slider:checkbox
@@ -158,8 +201,10 @@ function eventListeners(){
   });
   getElement('btn-autolog').addEventListener("click", event => {
     if(toggleElement('btn-autolog',true)){
-      sendToRelay(updateVar('autoLog'));
-      sendToRelay(sendCommand('btn-autolog'))
+      var value = getElement(btn_map['btn-autolog']).checked
+      getElement('tog-pass').checked = getElement(btn_map['btn-autolog']).checked
+      sendToRelay(writeVariable('autoLog',+value));
+      sendToRelay(writeCommand('set_auto_log'))
     }
 
   });
