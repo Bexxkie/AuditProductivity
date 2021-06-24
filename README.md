@@ -12,3 +12,8 @@ some things it does (but not this once since its just the new interface testing)
 - automatic login
 - automate folio batching 
 - automate printing reports
+
+--Until stuff is compiled --
+REQUIRED 
+-pyautogui
+-pillow
