@@ -9,7 +9,7 @@
   --font-console: rgb(80,80,100);
   --radius: 3px;
 
-  --icon: url("res/ico.gif");
+  --icon: url("../res/ico.gif");
 }
 /*---------------------------------------------------------------------------*/
 /*----------setup window frame----------*/

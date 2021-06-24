@@ -115,7 +115,7 @@ var slider_map = {'slider-history':["tog-hist",'tog-hist-p'],
 var btn_map = {'btn-theme':'tog-thme',
                   'btn-autolog':'tog-alo'};
 // stylesheets (cause i wanna just use +bool)
-var stylesheets = ['v2-style.css','v2-style-light.css']
+var stylesheets = ['styles/v2-style.css','styles/v2-style-light.css']
 // done laoding event
 document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
