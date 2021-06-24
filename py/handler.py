@@ -11,6 +11,7 @@ from PIL import Image
 
 import shared
 import autoLog
+
 # we need to read the message and determine what JS wants
 # theres just a few things were gonna needs
 # we just need to listen for it asking us to start the autologin loop
@@ -38,15 +39,11 @@ def set_auto_log():
     shared.set('autoLog',shared.get('autoLog'))
     #autoLog.alog()
 
-def start_process(process):
-    os.system('python {}'.format(process))
-
-# setup loading stuff
 def initialize():
     ind = 0
     maxSize = len(shared.image_list)
     for image in shared.image_list.keys():
         shared.image_list[image] = Image.open(shared.image_list[image])
         ind+=1
-
+    shared.return_message('@info%1%files loaded')
 initialize()

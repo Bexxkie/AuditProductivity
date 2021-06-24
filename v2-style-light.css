@@ -43,7 +43,7 @@ body{
   transition-timing-function:ease;
   transition: .2s;
 }
-.slider-toggle, .btn-toggle, .page-toggle, .foot-toggle{
+.slider-toggle, .btn-toggle, .page-toggle, .foot-toggle, .pass-toggle{
   display: none;
 }
 
@@ -271,4 +271,7 @@ background: var(--highlitecolor) !important;
 
 .foot-toggle:checked + #form-footer{
   display:block;
+}
+#tog-pass:checked + #footer-t-pass{
+  pointer-events: none;
 }
