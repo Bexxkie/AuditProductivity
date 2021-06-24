@@ -30,6 +30,12 @@ Originally written in python to automate some of the things in opera pms. (opera
 ![image](https://user-images.githubusercontent.com/8060672/123246224-ccc22c80-d4a2-11eb-8e42-f76a2259f5ef.png)
 </details>
 
+<details>
+  <summary>Light theme</summary>
+  
+   ![image](https://user-images.githubusercontent.com/8060672/123248447-2d526900-d4a5-11eb-8dfb-eb552447634d.png)
+  </details>
+  
 # Until stuff is compiled
 > REQUIRED python libs
 - pyautogui | pip install pyautogui
