@@ -45,5 +45,5 @@ def initialize():
     for image in shared.image_list.keys():
         shared.image_list[image] = Image.open(shared.image_list[image])
         ind+=1
-    shared.return_message('@info%1%files loaded')
+    shared.return_message('@info%1%files loaded..')
 initialize()

@@ -66,6 +66,8 @@ function interpret(msg){
     updateHistory(print_string);
   }
   if(msg[0]=='@ctrl'){
+    writeVariable(msg[2],msg[3])
+    //if(msg[1]):
 
   }
 }
@@ -74,7 +76,8 @@ function writeCommand(cmdName){
 }
 //@comd%set/get(1/0)%comName%value
 function writeVariable(varName,value){
-  return('@ctrl%1%'+varName+"%"+value);
+  getElement(varName).checked = value
+  //return('@ctrl%1%'+varName+"%"+value);
 }
 function readVariable(varName){
   return("@ctrl%0"+varName);

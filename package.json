@@ -6,7 +6,7 @@
   "author": "BrianKG",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^13.1.2"
+    "electron": "^13.1.4"
   },
   "scripts": {
     "start": "electron ."

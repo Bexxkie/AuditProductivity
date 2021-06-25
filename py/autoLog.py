@@ -8,6 +8,7 @@ user32 = ctypes.windll.user32
 
 def alog():
     while 1:
+
         if shared.get("autoLog"):
             #shared.return_message('@info%1%tic on')
             if user32.GetForegroundWindow() != 0:
@@ -19,6 +20,8 @@ def alog():
         else:
             #shared.return_message('@info%1%tic off')
             time.sleep(shared.get('delay'))
+
+
 
 def find_login():
     if interactor.find_object("login"):
