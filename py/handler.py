@@ -30,7 +30,7 @@ def interpret(input):
     if msg[0]=='@ctrl':                                 # this is used to get/set a value
         if bool(int(msg[1])):                           # convert to int, to get bool, if 1:
             shared.set(msg[2],int(msg[3]))              # replace the args value
-        shared.return_message(returnVariable(msg[2]))   # get args value
+        #shared.return_message(returnVariable(msg[2]))  # get args value
 
 def returnVariable(argName):
     return('@info%1%'+argName+" "+str(shared.get(argName)))

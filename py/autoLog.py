@@ -7,10 +7,10 @@ import interactor
 user32 = ctypes.windll.user32
 
 def alog():
+    shared.return_message('@info%1%alog ready..')
     while 1:
-
-        if shared.get("autoLog"):
-            #shared.return_message('@info%1%tic on')
+        while shared.get("autoLog"):
+            shared.return_message('@info%1%alog tic..')
             if user32.GetForegroundWindow() != 0:
                 if bool(find_login()):
                     interactor.type_object(shared.get("pass"))

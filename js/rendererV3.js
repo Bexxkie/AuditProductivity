@@ -65,23 +65,30 @@ function interpret(msg){
     }
     updateHistory(print_string);
   }
-  if(msg[0]=='@ctrl'){
-    writeVariable(msg[2],msg[3])
+  //@uvar%[0,1 set/get]%comName
+  if(msg[0]=='@uvar'){
+    setVariable(msg[2],msg[3])
     //if(msg[1]):
 
   }
 }
+// >>>>> upstream, asking python
 function writeCommand(cmdName){
   return('@comd%'+cmdName);
 }
-//@comd%set/get(1/0)%comName%value
-function writeVariable(varName,value){
-  getElement(varName).checked = value
-  //return('@ctrl%1%'+varName+"%"+value);
+function writeToPy(varName,value){
+  //getElement(varName).checked = +value
+  return('@ctrl%1%'+varName+"%"+value);
 }
 function readVariable(varName){
   return("@ctrl%0"+varName);
 }
+
+// <<<<<<<< downstream, listen to python
+function setVariable(varName,value){
+  getElement(varName).checked = +value
+}
+
 
 /* stuff is getting stupid so im gonna refactor
 function recieveData(data){
@@ -206,7 +213,7 @@ function eventListeners(){
     if(toggleElement('btn-autolog',true)){
       var value = getElement(btn_map['btn-autolog']).checked
       getElement('tog-pass').checked = getElement(btn_map['btn-autolog']).checked
-      sendToRelay(writeVariable('autoLog',+value));
+      sendToRelay(writeToPy('autoLog',+value));
       sendToRelay(writeCommand('set_auto_log'))
     }
 
