@@ -72,7 +72,7 @@ function interpret(msg){
 
   }
 }
-// >>>>> upstream, TALK // TODO:  py
+// >>>>> upstream, TALK to  py
 function writeCommand(cmdName){
   return('@comd%'+cmdName);
 }
