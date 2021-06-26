@@ -1,5 +1,6 @@
 import os
 import time
+import shared
 import pyautogui as pg
 from PIL import Image
 #
@@ -12,7 +13,7 @@ def find_object(image_string):
         rect = pg.locateOnScreen(shared.image_list[image_string], grayscale=1)
         return rect
     except OSError as _err:
-        print('   @info%'+_err)
+        shared.build_message_info(_err,1,1)
 
 def click_object(rect, dbl=0):
     """SEND CLICK EVENT, RECT, BOOL"""

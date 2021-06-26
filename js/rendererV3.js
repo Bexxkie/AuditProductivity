@@ -72,7 +72,7 @@ function interpret(msg){
 
   }
 }
-// >>>>> upstream, asking python
+// >>>>> upstream, TALK // TODO:  py
 function writeCommand(cmdName){
   return('@comd%'+cmdName);
 }
@@ -84,8 +84,13 @@ function readVariable(varName){
   return("@ctrl%0"+varName);
 }
 
-// <<<<<<<< downstream, listen to python
+// <<<<<<<< downstream, LISTEN to python
+// we should only really need to have python tell us to change a variable, for
+// the KB interrupt signal
 function setVariable(varName,value){
+  if(varName == 'tog-alo'){
+    getElement('tog-pass').checked = +value
+  }
   getElement(varName).checked = +value
 }
 

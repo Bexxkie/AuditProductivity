@@ -61,3 +61,22 @@ def set(argName,value):
 def return_message(msg):
     sys.stdout.write(str(msg)+'\n')
     sys.stdout.flush()
+    return 1
+
+
+def build_message_info(msg,timestamp,send):
+    message = ('@info%'+str(timestamp)+"%"+str(msg))
+    if not send:
+        return(message)
+    return_message(message)
+    return 1
+
+# controlName 0=set, 1=sendCommand, value
+def build_message_command(control,get_set,send,value=None):
+    message = ('@uvar%'+str(get_set)+'%'+str(control))
+    if value is not None:
+        message = (message+'%'+str(value))
+    if not send:
+        return(message)
+    return_message(message)
+    return 1
