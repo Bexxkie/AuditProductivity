@@ -3,8 +3,8 @@ import sys
 from PIL import Image
 
 
-
-idir = os.getcwd()+'\\res\\image_refs\\'
+idir = resource_path("image_refs\\")
+#idir = os.getcwd()+'\\res\\image_refs\\'
 args = \
 {
     'autoLog':0,
@@ -51,6 +51,11 @@ image_list = \
     "r_order": idir + "folio\\room_order.png",
     "sim": idir + "folio\\simulate.png",
 }
+
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and for PyInstaller"""
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 def get(argName):
     return args[argName]

@@ -1,16 +1,16 @@
 import * as timeMan from './modules/timeManager.mjs';
 import * as clockMan from './modules/clockManager.mjs';
+import * as iHand from './modules/imageHandler.mjs'
+
 var nodeConsole = require('console');
 var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
 const remote = require('electron').remote;
 const win = remote.getCurrentWindow();
-const { spawn } = require('child_process');
 
 
-
-const relay = spawn('python',['./py/MAIN.py'] ,{
-    stdio: 'pipe'
-});
+  // for build uses MAIN.EXE
+//const relay = require('child_process').spawn('python',['./py/MAIN.py'] ,{stdio: 'pipe'});
+const relay = require("child_process").execFile("MAIN.exe");
 // Backend testing here
 function sendToRelay(msg){
   //relay.stdin.write(msg+'\n');
@@ -81,7 +81,7 @@ function writeToPy(varName,value){
   return('@ctrl%1%'+varName+"%"+value);
 }
 function readVariable(varName){
-  return("@ctrl%0"+varName);
+  return("@ctrl%0%"+varName);
 }
 
 // <<<<<<<< downstream, LISTEN to python

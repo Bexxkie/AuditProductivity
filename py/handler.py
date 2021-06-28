@@ -21,6 +21,7 @@ import autoLog
 # split by %
 # @commd%command name
 # @ctrl%set/get(bool)%controlName(%?value to set()
+
 def interpret(input):
     pwd = input.split('*')
     shared.set('pass',pwd[1])
@@ -42,4 +43,7 @@ def initialize():
         shared.image_list[image] = Image.open(shared.image_list[image])
         ind+=1
     shared.build_message_info('files loaded..',1,1)
+
+
+
 initialize()
