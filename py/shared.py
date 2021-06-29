@@ -1,6 +1,15 @@
 import os
 import sys
+import datetime as dt
+
 from PIL import Image
+
+
+
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and for PyInstaller"""
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 
 idir = resource_path("image_refs\\")
@@ -51,12 +60,7 @@ image_list = \
     "r_order": idir + "folio\\room_order.png",
     "sim": idir + "folio\\simulate.png",
 }
-
-def resource_path(relative_path):
-    """Get absolute path to resource, works for dev and for PyInstaller"""
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
-
+reports_state_list = ['ico_root','misc','reports_window','reports','btn_search']
 def get(argName):
     return args[argName]
 
@@ -85,3 +89,10 @@ def build_message_command(control,get_set,send,value=None):
         return(message)
     return_message(message)
     return 1
+
+def update_time():
+    """Updates time"""
+    hour = dt.datetime.now().hour
+    if hour > 20:
+        return dt.date.today() + dt.timedelta(days=1)
+    return dt.date.today()

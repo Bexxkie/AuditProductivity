@@ -1,6 +1,5 @@
 import * as timeMan from './modules/timeManager.mjs';
 import * as clockMan from './modules/clockManager.mjs';
-import * as iHand from './modules/imageHandler.mjs'
 
 var nodeConsole = require('console');
 var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
@@ -9,8 +8,8 @@ const win = remote.getCurrentWindow();
 
 
   // for build uses MAIN.EXE
-//const relay = require('child_process').spawn('python',['./py/MAIN.py'] ,{stdio: 'pipe'});
-const relay = require("child_process").execFile("MAIN.exe");
+const relay = require('child_process').spawn('python',['./py/MAIN.py'] ,{stdio: 'pipe'});
+//const relay = require("child_process").execFile("MAIN.exe");
 // Backend testing here
 function sendToRelay(msg){
   //relay.stdin.write(msg+'\n');
@@ -227,6 +226,11 @@ function eventListeners(){
     toggleElement('btn-theme',true);
     changeTheme();
   });
+  getElement('btn-departures').addEventListener("click",event =>{
+    sendToRelay(writeCommand('print_departures_list'))
+  });
+
+
   relay.stdout.on('data', function(data)
   {
     interpret(data.toString());

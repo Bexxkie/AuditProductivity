@@ -2,6 +2,7 @@ import os
 import time
 import shared
 import pyautogui as pg
+import pygetwindow as gw
 from PIL import Image
 #
 import shared
@@ -33,3 +34,36 @@ def type_object(string, press=0, count=1):
     else:
         pg.typewrite(string)
     return 1
+
+def close_window():
+    """CLOSE WINDOW, RETURN TO ROOT HELPER"""
+    if find_object("btn_close"):
+        click_object(find_object("btn_close"))
+        return 1
+    if find_object("btn_exit"):
+        click_object(find_object("btn_exit"))
+        return 1
+    return 0
+
+def load_reports(report_name):
+    if window_exists():
+        # make sure we're at root
+        while find_object("ico_root_t") is None:
+            close_window()
+        click_object(find_object('misc'))
+        click_object(find_object('reports_window'))
+        click_object(find_object("reports"))
+        type_object(report_name)
+        click_object(find_object("btn_search"))
+        click_object(find_object(report_name), True)
+
+def window_exists():
+    """CHECKS FOR OPERA WINDOW, RETURNS WINDOW IF TRUE, ELSE RETURN NONE"""
+    try:
+        window = gw.getWindowsWithTitle('OPERA PMS')[0]
+    except IndexError:
+        return None
+    #if !window.isActive:
+    #    pg.application.Application().connect(handle=window._hWnd).top_window().set_focus()
+    window.restore()
+    return window

@@ -59,6 +59,7 @@ function capture_screen(){
 
 function search_screen(SearchObject){
   // I need to find an equivelant of 'pyautogui.locateOnScreen' but for jscript
+  
 }
 
 search_screen('login');
