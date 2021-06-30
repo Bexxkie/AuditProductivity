@@ -2,7 +2,6 @@ import interactor
 import shared
 
 
-
     #
     # I need to find a better way to do this
     # I don't want to need to use the 'heartbeat ' style like
@@ -16,6 +15,7 @@ def departure():
     # so this one is simple, it just needs to--
     # --open the reporting window, >> 'departures' >> input date (tomorrow)--
     # -->> tab(x2) to update other time elements >> click 'btn_print'
+    #
     #
     # can wait for returns 1
     interactor.load_reports('departures')
