@@ -229,6 +229,9 @@ function eventListeners(){
   getElement('btn-departures').addEventListener("click",event =>{
     sendToRelay(writeCommand('print_departures_list'))
   });
+  getElement('btn-iRate').addEventListener("click",event =>{
+    sendToRelay(writeCommand('getIrate'))
+  })
 
 
   relay.stdout.on('data', function(data)

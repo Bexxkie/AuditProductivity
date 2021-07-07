@@ -11,6 +11,7 @@ lstn = threading.Thread(target=listener.main)
 #cmnd = threading.Thread(target=)
 
 
+
 alog.start()
 lstn.start()
 #cmnd.start()

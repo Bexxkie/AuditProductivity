@@ -12,6 +12,7 @@ from PIL import Image
 import shared
 import autoLog
 import departures
+import exclusionRates
 # we need to read the message and determine what JS wants
 # theres just a few things were gonna needs
 # we just need to listen for it asking us to start the autologin loop
@@ -33,7 +34,11 @@ def interpret(input):
             shared.set(msg[2],int(msg[3]))              # replace the args value
 
 def set_auto_log():
+    # repurpose to handle multiprocessing
     shared.set('autoLog',shared.get('autoLog'))
+
+def getIrate():
+    shared.build_message_info(str(exclusionRates.main()),1,1)
 
 def print_departures_list():
     # ok so the new system should have a system that ensures its on the--
