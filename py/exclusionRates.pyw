@@ -16,7 +16,7 @@ from tkinter import filedialog
 #
 # return vs displayDialog [0,1]
 # is this being run by itself? set to 0 to call from another script
-standalone = 1
+standalone = 0
 
 __TOTALROOMS__ = 80
 config = configparser.ConfigParser()

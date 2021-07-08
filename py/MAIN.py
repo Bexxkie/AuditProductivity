@@ -3,24 +3,18 @@ import keyboard
 import time
 
 import shared
-import autoLog
+
 import listener
-
-alog = threading.Thread(target=autoLog.alog)
 lstn = threading.Thread(target=listener.main)
-#cmnd = threading.Thread(target=)
-
-
-
-alog.start()
 lstn.start()
 #cmnd.start()
 
 while 1:
     if keyboard.is_pressed('escape'):
-        if shared.get('autoLog'):
-            shared.set('threadStop',1)
-            shared.set('autoLog',0)
+        if shared.get('alog_thread') is not None:
+            shared.get('alog_thread').terminate()
+            shared.get('alog_thread').join()
+            shared.set('alog_thread', None)
             shared.build_message_command('tog-alo',0,1,0)
             time.sleep(.5)
 

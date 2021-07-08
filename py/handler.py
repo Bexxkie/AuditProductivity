@@ -6,13 +6,14 @@
 import os
 import sys
 import time
-import multiprocessing as mp
+from multiprocessing import Process as mp
 from PIL import Image
 
 import shared
-import autoLog
 import departures
 import exclusionRates
+
+import mproc.mp_alog as alo
 # we need to read the message and determine what JS wants
 # theres just a few things were gonna needs
 # we just need to listen for it asking us to start the autologin loop
@@ -35,7 +36,19 @@ def interpret(input):
 
 def set_auto_log():
     # repurpose to handle multiprocessing
-    shared.set('autoLog',shared.get('autoLog'))
+    # create/start proc here
+    if shared.get('alog_thread') is None:
+        imList = [shared.image_list['btn_login'], shared.image_list['login'], shared.image_list['login_a'],shared.get('pass')]
+        proc = mp(target=alo.start, args = [imList], name='autologProc')
+        shared.set('alog_thread', proc)
+        proc.start()
+        #shared.build_message_info(str(proc),0,1)
+    else:
+        proc = shared.get('alog_thread')
+        proc.terminate()
+        proc.join()
+
+    #shared.set('autoLog',shared.get('autoLog'))
 
 def getIrate():
     shared.build_message_info(str(exclusionRates.main()),1,1)
@@ -59,7 +72,3 @@ def initialize():
         shared.image_list[image] = Image.open(shared.image_list[image])
         ind+=1
     shared.build_message_info('files loaded..',1,1)
-
-
-
-initialize()

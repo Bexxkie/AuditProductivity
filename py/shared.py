@@ -21,6 +21,7 @@ args = \
     'delay':1,
     'debug':0,
     'pass':'',
+    'alog_thread': None
 }
 image_list = \
 {
@@ -67,6 +68,7 @@ def get(argName):
 def set(argName,value):
     args[argName] = value
 
+
 def return_message(msg):
     sys.stdout.write(str(msg)+'\n')
     sys.stdout.flush()
@@ -89,6 +91,7 @@ def build_message_command(control,get_set,send,value=None):
         return(message)
     return_message(message)
     return 1
+    
 
 def update_time():
     """Updates time"""

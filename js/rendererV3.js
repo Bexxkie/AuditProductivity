@@ -59,7 +59,7 @@ function interpret(msg){
   msg = msg.split('%');
   if(msg[0] == '@info'){
     var print_string = msg[2];
-    if(msg[1]){
+    if(msg[1]=='1'){
       print_string = "["+timeMan.getTime()+"]"+msg[2];
     }
     updateHistory(print_string);
