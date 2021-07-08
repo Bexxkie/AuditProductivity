@@ -3,7 +3,7 @@ import sys
 import shared
 import handler
 def main():
-    shared.build_message_info('Listener active..',1,1)
+    #shared.build_message_info('Listener active..',1,1)
     for msg in sys.stdin:
         if shared.get('debug'):
             con = msg.split('*')

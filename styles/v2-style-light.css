@@ -82,6 +82,8 @@ body{
 }
 .control-group {
   display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 2;
   padding: 4px;
   width: 100%;
   justify-content: space-around;
@@ -90,6 +92,7 @@ body{
 .control-button, .control-button-togg {
   margin: 2px;
   padding: 4px;
+  flex: 1;
   text-align: center;
   vertical-align: middle;
   width: 100%;
