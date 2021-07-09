@@ -3,21 +3,27 @@ import keyboard
 import time
 
 import shared
-
 import listener
-lstn = threading.Thread(target=listener.main)
-lstn.start()
 #cmnd.start()
 
-while 1:
-    if keyboard.is_pressed('escape'):
-        if shared.get('alog_thread') is not None:
-            shared.get('alog_thread').terminate()
-            shared.get('alog_thread').join()
-            shared.set('alog_thread', None)
-            shared.build_message_command('tog-alo',0,1,0)
-            time.sleep(.5)
+def main():
+    lstn = threading.Thread(target=listener.main)
+    lstn.start()
+    while 1:
+        if keyboard.is_pressed('escape'):
+            for threadName in ['alog_thread','departures_thread']:
+                if shared.get(threadName) is not None:
+                    shared.get(threadName).terminate()
+                    shared.get(threadName).join()
+                    shared.set(threadName, None)
+                    if threadName == 'alog_thread':
+                        shared.build_message_command('tog-alo',0,1,0)
+                    time.sleep(.5)
 
+
+if __name__=='__main__':
+    multiprocessing.freeze_support()
+    main()
 
 # i think im going to use multoprocessing for handling the commands
 # I cant interrupt a thread whenever i want so look mproc is what i gotta do

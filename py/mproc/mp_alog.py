@@ -1,56 +1,53 @@
 import ctypes
 import time
-import tkinter as tk
 import pyautogui as pg
-
+import asyncio
 #
 # We need to listen and wait for the loginbox to show
 # The only objects i need here are, login, login_a, pass, btn_login
 #
 
 # think i need to pass this in from the start
-btn_login = None
-login = None
-login_a = None
-password = None
-
+args = {}
 user32 = ctypes.windll.user32
 
-def start(args):
-    tk.messagebox.showinfo("info",str(args))
-    btn_login = args[0]
-    login = args[1]
-    login_a = args[2]
-    password = args[3]
-    alog()
+def start(arg):
+    args['btn_login'] = arg[0]
+    args['login'] = arg[1]
+    args['login_a'] = arg[2]
+    args['password'] = arg[3]
+    asyncio.run(alog())
 
-def alog():
+async def alog():
     while 1:
-        if user32.GetForegroundWindow()!=0: # is the screen locked?
-            click_object(find_login())
-            type_object(password)
-            click_object(btn_login)
+        if user32.GetForegroundWindow()==0: # is the screen locked?
+            await asyncio.sleep(2)
         else:
-            time.sleep(1)
-
-
+            rect = await find_login()
+            if rect is not None:
+                await click_object(rect)
+                pg.typewrite(args['password'])
+                #await click_object(find_login(1))
+            await asyncio.sleep(1)
+                #await click_object(await find_login(1))
+        await asyncio.sleep(1)
 # return object
-def find_login():
+async def find_login(object=0):
     try:
-        for img in [login, login_a]:
+        if bool(object):
+            rect = pg.locateOnScreen(args['btn_login'], grayscale=1)
+        for img in [args['login'], args['login_a']]:
             rect = pg.locateOnScreen(img, grayscale=1)
             if rect is not None:
-                return rect
+                break
+        return rect
     except OSError as _err:
         print(_err)
         return None
 
-def click_object(rect):
-    if rect is None:
-        return 0
-    if dbl:
-        pg.doubleClick(rect)
-    else:
-        pg.click(rect)
-    time.sleep(1)
-    return 1
+async def click_object(rect):
+    pg.click(rect,interval=1)
+    await asyncio.sleep(1)
+
+async def type_object(string):
+    pg.typewrite(string)

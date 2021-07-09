@@ -6,7 +6,7 @@
 import os
 import sys
 import time
-from multiprocessing import Process as mp
+import multiprocessing as mp
 from PIL import Image
 
 import shared
@@ -34,19 +34,33 @@ def interpret(input):
         if bool(int(msg[1])):                           # convert to int, to get bool, if 1:
             shared.set(msg[2],int(msg[3]))              # replace the args value
 
+def kill():
+    # check all threads before closing
+    for threadName in ['alog_thread','departures_thread']:
+        if shared.get(threadName) is not None:
+            shared.get(threadName).terminate()
+            shared.get(threadName).join()
+            shared.set(threadName, None)
+            if threadName == 'alog_thread':
+                shared.build_message_command('tog-alo',0,1,0)
+    shared.return_message('@kill%')
+    sys.exit()
+
 def set_auto_log():
     # repurpose to handle multiprocessing
     # create/start proc here
     if shared.get('alog_thread') is None:
-        imList = [shared.image_list['btn_login'], shared.image_list['login'], shared.image_list['login_a'],shared.get('pass')]
-        proc = mp(target=alo.start, args = [imList], name='autologProc')
+        proc = mp.Process(target=alo.start, args = [shared.get_alog_ass()],name='autologProc')
         shared.set('alog_thread', proc)
         proc.start()
         #shared.build_message_info(str(proc),0,1)
+        return
     else:
-        proc = shared.get('alog_thread')
-        proc.terminate()
-        proc.join()
+        shared.get('alog_thread').terminate()
+        shared.get('alog_thread').join()
+        shared.set('alog_thread', None)
+        #shared.build_message_info(str(shared.get('alog_thread')),0,1)
+        return
 
     #shared.set('autoLog',shared.get('autoLog'))
 
@@ -62,7 +76,16 @@ def print_departures_list():
     # --'reports' is visible, if so, open it.. its not? ok lets see if we have the 'reports_window' open
     # nope? ok open it then, otherwise try looking for reports again
     # I think i will put this in a seperate file and import 'interactor' to it.
-    departures.departure()
+    if shared.get('departures_thread') is None:
+        proc = mp.Process(target = departures.start,args = [shared.get_dep_ass()],name='departProc')
+        shared.set('departures_thread', proc)
+        proc.start()
+        return
+    else:
+        shared.get('departures_thread').terminate()
+        shared.get('departures_thread').join()
+        shared.set('departures_thread', None)
+        return
 
 
 def initialize():

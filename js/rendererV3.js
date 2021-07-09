@@ -7,9 +7,9 @@ const remote = require('electron').remote;
 const win = remote.getCurrentWindow();
 
 
-  // for build uses MAIN.EXE
-const relay = require('child_process').spawn('python',['./py/MAIN.py'] ,{stdio: 'pipe'});
-//const relay = require("child_process").execFile("MAIN.exe");
+  // uncomment when not UI
+//const relay = require('child_process').spawn('python',['./py/MAIN.py'] ,{stdio: 'pipe'});
+const relay = require("child_process").execFile("MAIN.exe");
 // Backend testing here
 function sendToRelay(msg){
   //relay.stdin.write(msg+'\n');
@@ -68,7 +68,9 @@ function interpret(msg){
   if(msg[0]=='@uvar'){
     setVariable(msg[2],msg[3])
     //if(msg[1]):
-
+  }
+  if(msg[0]=='@kill'){
+    exit();
   }
 }
 // >>>>> upstream, TALK to  py
@@ -93,6 +95,10 @@ function setVariable(varName,value){
   getElement(varName).checked = +value
 }
 
+function exit(){
+  relay.kill();
+  win.close();
+}
 
 /* stuff is getting stupid so im gonna refactor
 function recieveData(data){
@@ -198,8 +204,7 @@ function getElement(elementID){
 //--------------------Event Handler---------------------------------------------
 function eventListeners(){
   getElement('win-btn-close').addEventListener("click", event => {
-    relay.kill();
-    win.close();
+    sendToRelay(writeCommand('kill'));
   });
   getElement('win-btn-minimize').addEventListener("click", event => {
     win.minimize();

@@ -21,7 +21,8 @@ args = \
     'delay':1,
     'debug':0,
     'pass':'',
-    'alog_thread': None
+    'alog_thread': None,
+    'departures_thread': None
 }
 image_list = \
 {
@@ -68,6 +69,27 @@ def get(argName):
 def set(argName,value):
     args[argName] = value
 
+def get_alog_ass():
+    return [
+    image_list['btn_login'],
+    image_list['login'],
+    image_list['login_a'],
+    args['pass']
+    ]
+
+def get_dep_ass():
+    return [
+    image_list['ico_root_t'],
+    image_list['misc'],
+    image_list['reports_window'],
+    image_list['reports'],
+    image_list['btn_search'],
+    image_list['btn_close'],
+    image_list['btn_exit'],
+    image_list['btn_print'],
+    image_list['departures'],
+    str(update_time().strftime('%m-%d-%y'))
+    ]
 
 def return_message(msg):
     sys.stdout.write(str(msg)+'\n')
@@ -91,7 +113,7 @@ def build_message_command(control,get_set,send,value=None):
         return(message)
     return_message(message)
     return 1
-    
+
 
 def update_time():
     """Updates time"""

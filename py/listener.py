@@ -9,7 +9,7 @@ def main():
         if shared.get('debug'):
             con = msg.split('*')
             con[1] = '*'*len(con[1])
-            shared.build_message_info(str(con[0]+con[1]),1,1)
+            shared.build_message_info(str(con[1]),1,1)
         handler.interpret(msg) # send to handler
         #time.sleep(1)
     sys.exit()
