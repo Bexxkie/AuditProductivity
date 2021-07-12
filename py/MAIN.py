@@ -20,35 +20,23 @@ def main():
                         shared.build_message_command('tog-alo',0,1,0)
                     time.sleep(.5)
 
-
+# this is needed otherwise we get an infinite loop when spawning a child process
 if __name__=='__main__':
-    multiprocessing.freeze_support()
+    # uncomment if compiling to executable
+    #multiprocessing.freeze_support()
     main()
 
-# i think im going to use multoprocessing for handling the commands
-# I cant interrupt a thread whenever i want so look mproc is what i gotta do
-# gonna have to setup ipc for step breakdowns
-#
-# start with the basics we need to open reporting window
-#   first step of all commands will be ensuring focus and root
-#   window.activate() doesnt work for some reason so i need a new way
-#   but ill get to that later, i wanna get the basic handling down
-#  >so we'll start by ensuring root
-#   - search for ico_root
-#       - if we cant find it, look for a close or exit button
-#  >next we need to open the reporting window
-#   - look in the banner for 'misc' and open it
-#       - find reporting in the misc dropdown
-#  >so now we can branch off and do whatever reports we need
-#   - need to pass a report name when starting the process
-#   - type the report name, look for the search button (or press enter)
-#       - find the report we need and open it
-#  some reports need different parameters so we need to account for that
-#   - the departure list needs the next business day.
-#   - pressing tab twice will update other fields so we just need to do that
-#   - afterwards we can print the report if we want
-#        - alt+p or just click the print button
+# So mpc is pretty much done, i just need a better way to package everything
+# i also need to finish making all the commands and work on increasing speed
+# if i could compile things it would load and run faster, but running from...
+# ...script is like 30-50% slower according to my previous tests in verion 4
+# if i can increase the speed at which 'locateOnScreen' runs then that would...
+# ...help greatly, maybe adjust resolutions of everything by 25% and check...
+# ...for accuracy. get the lowest resolution to search for while maintaining...
+# ...high reliability. 0 tolerance, must not have any false positives.
 #
 #
-#
-#
+# After compiling with pyinstaller i cant seem to get spawned processes to end
+# Since they need to be able to close at any point in time at random i cant...
+# ...really open a pipe cause that could cause me to run into invalid memory
+# and i really don't want that
