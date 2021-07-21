@@ -5,19 +5,20 @@
 #
 #
 # for more helpful tools, or to report bugs visit my github (link above)
-# 
+#
 #
 # Version 1.0 d.7-7-21
 # ------------------------
-# + initial build 
+# + initial build
 # +
-# 
+#
 # Version 1.2 d.7-20-21
 # ------------------------
 # + fixed room count errors
 # + added total rooms to config
-# + 
-# 
+# + automatically detect if standalone or dependent
+# +
+#
 # # # # # # # # # # # #
 import sys
 import os
@@ -28,10 +29,7 @@ from tkinter import filedialog
 #
 # return vs displayDialog [0,1]
 # is this being run by itself? set to 0 to call from another script
-standalone = 1
 config = configparser.ConfigParser()
-if not standalone:
-    config.read('erates.ini')
 # [adr]
 # [occ]
 # split by \n
@@ -51,7 +49,7 @@ penMap = {  '1' : [.30,.50,.80],
             '3' : [.40,.75,.95]
             }
 # return list of all lines excluded, called at init
-def setExclusionList(conFile=None):
+def setExclusionList(standalone, conFile=None):
     if standalone:
         config.read(conFile)
     for index in fileMap:
@@ -64,7 +62,6 @@ def setExclusionList(conFile=None):
                 if rateCode in config['OCC']['rtc']:
                     roomOcc = 0
                 exclusionMap[rateCode] = [roomCnt,roomRev,roomOcc]
-    print(exclusionMap)
 
 #
 def getRevenueDeduction():
@@ -74,13 +71,13 @@ def getRevenueDeduction():
     return deductRev
 
 #
-def getPenetrationLevel(conFile = None):
+def getPenetrationLevel(standalone, conFile = None):
     if standalone:
         config.read(conFile)
     level = config['GEN']['penetration-level']
     return(level)
-    
-def getTotalRooms(conFile = None):
+
+def getTotalRooms(standalone, conFile = None):
     if standalone:
         config.read(conFile)
     roomCount = config['GEN']['total-rooms']
@@ -96,19 +93,19 @@ def getOccupancyDeduction():
 def getTotalRev():
     return(fileMap[len(fileMap)-1].split('\t')[1])
 #
-def calcIrate(conFile = None):
+def calcIrate(standalone, conFile = None):
     if standalone:
         config.read(conFile)
     rev = getTotalRev()
     occ = fileMap[len(fileMap)-1].split('\t')[0]
-    occD = getOccupancyDeduction()    
+    occD = getOccupancyDeduction()
     revD = getRevenueDeduction()
-    tRoom = getTotalRooms(config)
-    
+    tRoom = getTotalRooms(standalone,config)
+
     adjustedOcc = int(occ)-int(occD)
     adjustedRev = float(rev)-float(revD)
     percentage = (adjustedOcc/int(tRoom))*100
-    level = getPenetrationLevel(config)
+    level = getPenetrationLevel(standalone,config)
     split = penMap[level][0]
     if percentage >96:
         split = penMap[level][2]
@@ -140,7 +137,7 @@ def getConfig():
     return(filedialog.askopenfilename(filetypes = [('config file','.ini')], title = 'Select config'))
 
 #
-def start():
+def start(standalone):
     tk.Tk().withdraw()
     conFile = None
     if standalone:
@@ -150,16 +147,18 @@ def start():
         return('no file selected')
     if not init(file):
         return('Invalid file')
-    setExclusionList(conFile)
-    return(calcIrate(conFile))
-    
-def main():
+    setExclusionList(standalone,conFile)
+    return(calcIrate(standalone,conFile))
+
+def main(standalone = 0):
     #handle return messages
-    returnValue = start();
+    if not standalone:
+        config.read('erates.ini')
+    returnValue = start(standalone);
     if not standalone:
         return returnValue
     tk.messagebox.showinfo("info",returnValue)
 
 
-if standalone:
-    main()
+if __name__ == "__main__":
+    main(1)

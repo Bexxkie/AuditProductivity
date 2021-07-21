@@ -8,8 +8,8 @@ const win = remote.getCurrentWindow();
 
 
   // uncomment when not UI
-//const relay = require('child_process').spawn('python',['./py/MAIN.py'] ,{stdio: 'pipe'});
-const relay = require("child_process").execFile("MAIN.exe");
+const relay = require('child_process').spawn('python',['./py/MAIN.py'] ,{stdio: 'pipe'});
+//const relay = require("child_process").execFile("MAIN.exe");
 // Backend testing here
 function sendToRelay(msg){
   //relay.stdin.write(msg+'\n');
