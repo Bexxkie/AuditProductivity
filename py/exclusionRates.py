@@ -1,11 +1,23 @@
 # # # # # # # # # # # #
 # Title: Sensible reward reimbursment calculator
 # Author: BrianKG |  7-7-21
-# website: https://github.com/BrianKG
-#
-# for more helpful tools visit my github (link above)
+# website: https://github.com/BrianKG/AuditProductivity
 #
 #
+# for more helpful tools, or to report bugs visit my github (link above)
+# 
+#
+# Version 1.0 d.7-7-21
+# ------------------------
+# + initial build 
+# +
+# 
+# Version 1.2 d.7-20-21
+# ------------------------
+# + fixed room count errors
+# + added total rooms to config
+# + 
+# 
 # # # # # # # # # # # #
 import sys
 import os
@@ -16,9 +28,7 @@ from tkinter import filedialog
 #
 # return vs displayDialog [0,1]
 # is this being run by itself? set to 0 to call from another script
-standalone = 0
-
-__TOTALROOMS__ = 80
+standalone = 1
 config = configparser.ConfigParser()
 if not standalone:
     config.read('erates.ini')
@@ -50,10 +60,11 @@ def setExclusionList(conFile=None):
                 rateCode = fileMap[index].split('\t')[2]
                 roomCnt = fileMap[index].split('\t')[6]
                 roomRev = fileMap[index].split('\t')[8]
-                roomOcc = 0
+                roomOcc = 1
                 if rateCode in config['OCC']['rtc']:
-                    roomOcc = 1
+                    roomOcc = 0
                 exclusionMap[rateCode] = [roomCnt,roomRev,roomOcc]
+    print(exclusionMap)
 
 #
 def getRevenueDeduction():
@@ -68,7 +79,12 @@ def getPenetrationLevel(conFile = None):
         config.read(conFile)
     level = config['GEN']['penetration-level']
     return(level)
-
+    
+def getTotalRooms(conFile = None):
+    if standalone:
+        config.read(conFile)
+    roomCount = config['GEN']['total-rooms']
+    return(roomCount)
 #
 def getOccupancyDeduction():
     deductOcc = 0
@@ -76,23 +92,22 @@ def getOccupancyDeduction():
         if exclusionMap[index][2]:                   # RoomOccDeductionBool
             deductOcc+=int(exclusionMap[index][0])   # RoomOccCount
     return deductOcc
-
 #
 def getTotalRev():
     return(fileMap[len(fileMap)-1].split('\t')[1])
-
 #
 def calcIrate(conFile = None):
     if standalone:
         config.read(conFile)
     rev = getTotalRev()
     occ = fileMap[len(fileMap)-1].split('\t')[0]
-    occD = getOccupancyDeduction()
+    occD = getOccupancyDeduction()    
     revD = getRevenueDeduction()
-
+    tRoom = getTotalRooms(config)
+    
     adjustedOcc = int(occ)-int(occD)
     adjustedRev = float(rev)-float(revD)
-    percentage = (adjustedOcc/__TOTALROOMS__)*100
+    percentage = (adjustedOcc/int(tRoom))*100
     level = getPenetrationLevel(config)
     split = penMap[level][0]
     if percentage >96:
@@ -102,6 +117,7 @@ def calcIrate(conFile = None):
     rate = (adjustedRev/adjustedOcc)*split
     if rate <25.00:
         rate = 25.00
+    # subtract excluded rooms from adjustedOcc
     return('IVANI RATE: $'+str(round(rate,2)))
     # <90 35
     # <96 55
@@ -136,6 +152,7 @@ def start():
         return('Invalid file')
     setExclusionList(conFile)
     return(calcIrate(conFile))
+    
 def main():
     #handle return messages
     returnValue = start();
