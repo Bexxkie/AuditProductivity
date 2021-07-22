@@ -1,4 +1,5 @@
 node_modules/
 py/__pycache__/
+py/mproc/__pycache__/
 auditExpress5-win32-x64/
 py/build/
