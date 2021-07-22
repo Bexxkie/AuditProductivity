@@ -34,7 +34,7 @@ function interpret(msg){
     case '@tim':
       updateHistory("["+timeMan.getTime()+"]"+content[1]);
       break;
-    case '@psh':
+    case '@psh':1
       // push updates, py did something we need to know
       // @psh<<objName%value
       recieveData(content[1])
