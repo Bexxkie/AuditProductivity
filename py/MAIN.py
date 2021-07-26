@@ -11,7 +11,7 @@ def main():
     lstn.start()
     while 1:
         if keyboard.is_pressed('escape'):
-            for threadName in ['alog_thread','departures_thread']:
+            for threadName in ['alog_thread','departures_thread','eRate_thread']:
                 if shared.get(threadName) is not None:
                     shared.get(threadName).terminate()
                     shared.get(threadName).join()

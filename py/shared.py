@@ -22,7 +22,8 @@ args = \
     'debug':0,
     'pass':'',
     'alog_thread': None,
-    'departures_thread': None
+    'departures_thread': None,
+    'eRate_thread':None,
 }
 image_list = \
 {
@@ -53,6 +54,9 @@ image_list = \
     "btn_next": idir + "common\\next.png",
     "login": idir + "common\\password_box.png",
     "login_a": idir + "common\\password_box_a.png",
+    "btn_ok": idir + "common\\ok.png",
+    "file": idir + "common\\file.png",
+    "save": idir + "common\\save.png",
     ## folio
     "a_bill": idir + "folio\\advance_bill.png",
     "a_guest": idir + "folio\\all_guest.png",
@@ -61,6 +65,15 @@ image_list = \
     "depart": idir + "folio\\depart_tomorrow.png",
     "r_order": idir + "folio\\room_order.png",
     "sim": idir + "folio\\simulate.png",
+    ## exclusion rates
+    "block": idir+"res_forecast\\block.png",
+    "block_def": idir+"res_forecast\\block_def.png",
+    "deliminated_data": idir+"res_forecast\\deliminated_data.png",
+    "dropdown": idir+"res_forecast\\dropdown.png",
+    "print_to_file": idir+"res_forecast\\print_to_file.png",
+    "rate_code": idir+"res_forecast\\rate_code.png",
+    "res_forecast1": idir+"res_forecast\\res_forecast1.png",
+
 }
 reports_state_list = ['ico_root','misc','reports_window','reports','btn_search']
 def get(argName):
@@ -71,25 +84,48 @@ def set(argName,value):
 
 def get_alog_ass():
     return [
-    image_list['btn_login'],
-    image_list['login'],
-    image_list['login_a'],
-    args['pass']
+        image_list['btn_login'],
+        image_list['login'],
+        image_list['login_a'],
+        args['pass']
     ]
 
 def get_dep_ass():
     return [
-    image_list['ico_root_t'],
-    image_list['misc'],
-    image_list['reports_window'],
-    image_list['reports'],
-    image_list['btn_search'],
-    image_list['btn_close'],
-    image_list['btn_exit'],
-    image_list['btn_print'],
-    image_list['departures'],
-    str(update_time().strftime('%m-%d-%y'))
+        image_list['ico_root_t'],
+        image_list['misc'],
+        image_list['reports_window'],
+        image_list['reports'],
+        image_list['btn_search'],
+        image_list['btn_close'],
+        image_list['btn_exit'],
+        image_list['btn_print'],
+        image_list['departures'],
+        str(update_time().strftime('%m-%d-%y'))
     ]
+
+def get_er_ass():
+    return [
+        image_list['misc'],
+        image_list['reports_window'],
+        image_list['reports'],
+        image_list['res_forecast1'],
+        image_list['btn_search'],
+        image_list['print_to_file'],
+        image_list['dropdown'],
+        image_list['deliminated_data'],
+        image_list['btn_ok'],
+        image_list['rate_code'],
+        image_list['block'],
+        image_list['block_def'],
+        image_list['file'],
+        image_list['save'],
+        image_list['ico_root_t'],
+        image_list['btn_close'],
+        image_list['btn_exit'],
+    ]
+
+
 
 def return_message(msg):
     sys.stdout.write(str(msg)+'\n')
