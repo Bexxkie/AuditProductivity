@@ -13,7 +13,7 @@ import shared
 #import exclusionRates
 
 import mproc.mp_alog as alo
-import mproc.departures
+import mproc.departures as dep
 import mproc.mp_exclusionRates as er
 # we need to read the message and determine what JS wants
 # theres just a few things were gonna needs
@@ -80,7 +80,7 @@ def getIrate():
 
 def print_departures_list():
     if shared.get('departures_thread') is None:
-        proc = mp.Process(target = departures.start, args = [shared.get_dep_ass()],name='departProc')
+        proc = mp.Process(target = dep.start, args = [shared.get_dep_ass()],name='departProc')
         shared.set('departures_thread', proc)
         proc.start()
         return

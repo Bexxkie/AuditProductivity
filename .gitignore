@@ -1,5 +1,6 @@
 node_modules/
 py/__pycache__/
 py/mproc/__pycache__/
-auditExpress5-win32-x64/
+quick audit5-win32-x64/
+quick_audit5-5.1.0.tgz
 py/build/

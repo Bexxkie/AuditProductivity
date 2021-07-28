@@ -1,12 +1,15 @@
 {
-  "name": "electron_ae",
-  "version": "1.0.0",
+  "name": "quick_audit5",
+  "productName":"quick audit5",
+  "version": "5.1.0",
   "description": "audit express UI overhaul",
   "main": "main.js",
   "author": "BrianKG",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^13.1.4"
+    "electron": "^13.1.7",
+    "electron-builder": "^22.11.7",
+    "electron-packager": "^15.3.0"
   },
   "scripts": {
     "start": "electron ."
@@ -17,5 +20,13 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "robotjs": "^0.6.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrianKG/AuditProductivity.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BrianKG/AuditProductivity/issues"
+  },
+  "homepage": "https://github.com/BrianKG/AuditProductivity#readme"
 }
